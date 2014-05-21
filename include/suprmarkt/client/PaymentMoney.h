@@ -14,8 +14,6 @@ namespace suprmarkt {
 namespace client {
 
 class PaymentMoney: public Payment {
-public:
-	static Payment& getInstance();
 };
 
 } /* namespace cashier */

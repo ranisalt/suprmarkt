@@ -10,7 +10,7 @@
 namespace suprmarkt {
 namespace client {
 
-Client::Client(int cartSize, double cartValue, Payment* paymentType) :
+Client::Client(int cartSize, double cartValue, const Payment& paymentType) :
 		_arrivalTime(), _leavingTime(), _cartSize(cartSize), _cartValue(
 				cartValue), _paymentType(paymentType) {
 }
@@ -43,8 +43,8 @@ double Client::cartValue() const {
 	return _cartValue;
 }
 
-Payment& Client::paymentType() const {
-	return *_paymentType;
+Payment Client::paymentType() const {
+	return _paymentType;
 }
 
 } /* namespace client */

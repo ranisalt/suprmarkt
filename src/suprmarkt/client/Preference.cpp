@@ -1,11 +1,11 @@
 /*
- * Payment.cpp
+ * Preference.cpp
  *
- *  Created on: 20/05/2014
+ *  Created on: 21/05/2014
  *      Author: ranieri
  */
 
-#include <suprmarkt/client/Payment.h>
+#include <suprmarkt/client/Preference.h>
 
 namespace suprmarkt {
 namespace client {

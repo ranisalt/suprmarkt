@@ -27,10 +27,11 @@ public:
 	Checkout(const Cashier&, const List<Client>&);
 	virtual ~Checkout();
 
-	Cashier cashier();
+	Cashier cashier() const;
 
 	void dequeue(int time);
 	void enqueue(Client&);
+	int length() const;
 };
 
 } /* namespace checkout */

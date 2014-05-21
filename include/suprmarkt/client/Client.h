@@ -16,7 +16,7 @@ namespace client {
 class Client {
 public:
 	Client();
-	Client(int, double, Payment*);
+	Client(int, double, const Payment&);
 	virtual ~Client();
 
 	int arrivalTime() const;
@@ -28,7 +28,7 @@ public:
 	int cartSize() const;
 	double cartValue() const;
 
-	Payment& paymentType() const;
+	Payment paymentType() const;
 
 private:
 	int _arrivalTime;
@@ -36,7 +36,7 @@ private:
 
 	int _cartSize;
 	double _cartValue;
-	Payment* _paymentType;
+	Payment _paymentType;
 };
 
 } /* namespace client */

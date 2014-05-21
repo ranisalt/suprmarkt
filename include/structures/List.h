@@ -47,7 +47,7 @@ class List {
 			return *this;
 		}
 
-		iterator_base operator++(int) {
+		iterator_base& operator++(int) {
 			iterator_base other(this);
 			++this;
 			return other;
@@ -58,7 +58,7 @@ class List {
 			return *this;
 		}
 
-		iterator_base operator--(int) {
+		iterator_base& operator--(int) {
 			iterator_base other(this);
 			--this;
 			return other;

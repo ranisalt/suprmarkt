@@ -21,7 +21,8 @@ Efficiency* EfficiencyHigh::copy() const {
 }
 
 int EfficiencyHigh::paymentTime(const Payment& paymentType) const {
-	if (&PaymentCheck::getInstance() == &paymentType) {
+	const Payment check = PaymentCheck();
+	if (check == paymentType) {
 		return 10;
 	}
 	return 0;

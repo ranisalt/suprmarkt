@@ -10,10 +10,5 @@
 namespace suprmarkt {
 namespace client {
 
-Payment& PaymentMoney::getInstance() {
-	static PaymentMoney instance;
-	return instance;
-}
-
 } /* namespace cashier */
 } /* namespace suprmarkt */

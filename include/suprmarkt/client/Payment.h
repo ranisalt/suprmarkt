@@ -12,14 +12,7 @@ namespace suprmarkt {
 namespace client {
 
 class Payment {
-public:
-	virtual ~Payment();
-	static Payment& getInstance();
-
-protected:
-	Payment();
-	Payment(const Payment&);
-	Payment& operator=(const Payment&);
+	bool operator==(const Payment& rhs);
 };
 
 } /* namespace client */

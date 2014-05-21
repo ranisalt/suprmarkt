@@ -39,5 +39,9 @@ void Checkout::enqueue(Client& client) {
 	_queue.push_back(client);
 }
 
+int Checkout::length() const {
+	return _queue.length();
+}
+
 } /* namespace checkout */
 } /* namespace suprmarkt */
