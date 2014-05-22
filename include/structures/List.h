@@ -5,7 +5,7 @@
  *      Author: ranieri
  */
 
-#ifndef LIST_H_
+#ifdef LIST_H_
 #define LIST_H_
 
 #include <iostream>
@@ -23,7 +23,6 @@ class List {
 		T item;
 	};
 
-	/* wardddd */
 	node *sentinel;
 	int count;
 

@@ -9,7 +9,8 @@
 
 namespace suprmarkt {
 
-Suprmarkt::Suprmarkt(const List<Checkout>& queues) :
+//Suprmarkt::Suprmarkt(const List<Checkout>& queues) :
+Suprmarkt::Suprmarkt(const deque<Checkout>& queues) :
 		_queues(queues) {
 }
 

@@ -10,12 +10,12 @@
 namespace suprmarkt {
 namespace checkout {
 
-Checkout::Checkout(const Cashier& cashier, const List<Client>& queue) :
+//Checkout::Checkout(const Cashier& cashier, const List<Client>& queue) :
+Checkout::Checkout(const Cashier& cashier, const deque<Client>& queue) :
 		_cashier(cashier), _queue(queue) {
 }
 
 Checkout::~Checkout() {
-	// TODO Auto-generated destructor stub
 }
 
 void Checkout::dequeue(int time) {
@@ -33,14 +33,21 @@ void Checkout::dequeue(int time) {
 void Checkout::enqueue(Client& client) {
 	int leavingTime = _cashier.efficiency().processTime(client);
 	leavingTime +=
-			_queue.length() ?
-					_queue.back().leavingTime() : client.arrivalTime();
+			_queue.size() ? _queue.back().leavingTime() : client.arrivalTime();
 	client.leavingTime(leavingTime);
 	_queue.push_back(client);
 }
 
+int Checkout::countItems() const {
+	int count = 0;
+	for (auto client : _queue) {
+		count += client.cartSize();
+	}
+	return count;
+}
+
 int Checkout::length() const {
-	return _queue.length();
+	return _queue.size();
 }
 
 } /* namespace checkout */

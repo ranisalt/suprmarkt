@@ -10,17 +10,13 @@
 
 #include <suprmarkt/client/Preference.h>
 
-#include <structures/List.h>
-
-#include <suprmarkt/checkout/Checkout.h>
-using suprmarkt::checkout::Checkout;
-
 namespace suprmarkt {
 namespace client {
 
 class PreferenceShorterQueue: public Preference {
 public:
-	static Checkout& chooseQueue(List<Checkout>&);
+	using Preference::chooseQueue;
+	Checkout& chooseQueue(deque<Checkout>&);
 };
 
 } /* namespace client */
