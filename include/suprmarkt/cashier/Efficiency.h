@@ -10,8 +10,6 @@
 
 #include <suprmarkt/client/Client.h>
 using suprmarkt::client::Client;
-
-#include <suprmarkt/client/Payment.h>
 using suprmarkt::client::Payment;
 
 namespace suprmarkt {
@@ -20,13 +18,12 @@ namespace cashier {
 class Efficiency {
 public:
 	virtual ~Efficiency();
-	virtual Efficiency* copy() const = 0;
 
 	int processTime(const Client&) const;
 
 protected:
 	int itemFactor;
-	virtual int paymentTime(const Payment&) const = 0;
+	virtual int paymentTime(const Payment& paymentType) const = 0;
 };
 
 } /* namespace cashier */

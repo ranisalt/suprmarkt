@@ -12,10 +12,10 @@ TEST_SRC=$(shell find src tests -iname '*.cpp') main_test.cpp
 all: test
 
 build:
-	$(CXX) -o $(EXEC) $(SRC) $(CXXFLAGS)
+	@$(CXX) -o $(EXEC) $(SRC) $(CXXFLAGS)
 
 test:
-	$(CXX) -o $(TEST) $(TEST_SRC) $(CXXFLAGS) -lgtest -pthread
+	@$(CXX) -o $(TEST) $(TEST_SRC) $(CXXFLAGS) -lgtest -pthread
 	@./$(TEST)
 
 clean:

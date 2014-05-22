@@ -18,8 +18,8 @@ using suprmarkt::cashier::EfficiencyMedium;
 
 class CashierTest: public testing::Test {
 public:
-	Cashier a = Cashier("Alice", 700.0, EfficiencyMedium());
-	Cashier b = Cashier("Bob", 1200.0, EfficiencyHigh());
+	Cashier a{"Alice", 700.0, new EfficiencyMedium()};
+	Cashier b{"Bob", 1200.0, new EfficiencyHigh()};
 };
 
 TEST_F(CashierTest, cashierHasCorrectData) {

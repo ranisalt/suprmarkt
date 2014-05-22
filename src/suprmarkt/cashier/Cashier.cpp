@@ -10,8 +10,8 @@
 namespace suprmarkt {
 namespace cashier {
 
-Cashier::Cashier(string name, double salary, const Efficiency& efficiency) :
-		_name(name), _salary(salary), _efficiency(efficiency.copy()), _clientsServed(), _totalIncome() {
+Cashier::Cashier(const string& name, double salary, Efficiency* efficiency) :
+		_name(name), _salary(salary), _efficiency(efficiency), _clientsServed(), _totalSold(), _totalIncome() {
 }
 
 Cashier::~Cashier() {
@@ -45,12 +45,24 @@ void Cashier::clientsServed(int clientsServed) {
 	_clientsServed = clientsServed;
 }
 
+int Cashier::totalSold() const {
+	return _totalSold;
+}
+
+void Cashier::totalSold(int totalSold) {
+	_totalSold = totalSold;
+}
+
 double Cashier::totalIncome() const {
 	return _totalIncome;
 }
 
 void Cashier::totalIncome(double totalIncome) {
 	_totalIncome = totalIncome;
+}
+
+void receivePayment(int cartSize, int cartValue, Payment* paymentMethod) {
+
 }
 
 } /* namespace cashier */

@@ -18,7 +18,7 @@ namespace cashier {
 
 class Cashier {
 public:
-	Cashier(string, double, const Efficiency&);
+	Cashier(const string& name, double salary, Efficiency* efficiency);
 	virtual ~Cashier();
 
 	string name() const;
@@ -32,8 +32,13 @@ public:
 	int clientsServed() const;
 	void clientsServed(int clientsServed);
 
+	int totalSold() const;
+	void totalSold(int totalSold);
+
 	double totalIncome() const;
 	void totalIncome(double totalIncome);
+
+	void receivePayment(int cartSize, int cartValue, Payment paymentMethod);
 
 private:
 	string _name;
@@ -41,6 +46,7 @@ private:
 	Efficiency* _efficiency;
 
 	int _clientsServed;
+	int _totalSold;
 	double _totalIncome;
 };
 

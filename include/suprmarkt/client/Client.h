@@ -8,10 +8,10 @@
 #ifndef CLIENT_H_
 #define CLIENT_H_
 
-#include <suprmarkt/client/Payment.h>
-
 namespace suprmarkt {
 namespace client {
+
+enum Payment { CHECK, MONEY };
 
 class Client {
 public:

@@ -14,11 +14,8 @@ namespace suprmarkt {
 namespace cashier {
 
 class EfficiencyMedium: public Efficiency {
-public:
-	Efficiency* copy() const;
-
 protected:
-	int paymentTime(const Payment&) const;
+	int paymentTime(const Payment& paymentType) const;
 };
 
 } /* namespace cashier */

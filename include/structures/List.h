@@ -5,7 +5,7 @@
  *      Author: ranieri
  */
 
-#ifdef LIST_H_
+#ifndef LIST_H_
 #define LIST_H_
 
 #include <iostream>
@@ -19,7 +19,7 @@ class List {
 		}
 
 		node* pred;
-		node *succ;
+		node* succ;
 		T item;
 	};
 
@@ -34,11 +34,9 @@ class List {
 		}
 
 		iterator_base& operator=(const iterator_base& other) {
-			if (!this == other) {
-				return this(other);
-			} else {
-				return this;
-			}
+			if (!(*this == other))
+				this->ptr = other.ptr;
+			return *this;
 		}
 
 		iterator_base& operator++() {
@@ -52,6 +50,19 @@ class List {
 			return other;
 		}
 
+		/*iterator_base& operator+(int n) {
+			iterator_base<U>* it = new iterator_base<U>(this->ptr);
+			if (n < 0) {
+				return this->operator -(-n);
+			}
+			while (--n > 0) {
+				++it;
+				if (sentinel == it->ptr)
+					++n;
+			}
+			return *it;
+		}*/
+
 		iterator_base& operator--() {
 			this->ptr = this->ptr->pred;
 			return *this;
@@ -62,6 +73,19 @@ class List {
 			--this;
 			return other;
 		}
+
+		/*iterator_base& operator-(int n) {
+			iterator_base<U>* it = new iterator_base<U>(this->ptr);
+			if (n < 0) {
+				return this->operator +(-n);
+			}
+			while (--n > 0) {
+				--it;
+				if (sentinel == it->ptr)
+					--n;
+			}
+			return *it;
+		}*/
 
 		bool operator==(const iterator_base& other) const {
 			return this->ptr == other.ptr;
@@ -100,7 +124,7 @@ public:
 		return this->count == 0;
 	}
 
-	int length() const {
+	int size() const {
 		return this->count;
 	}
 
@@ -126,7 +150,7 @@ public:
 			throw std::out_of_range("Inserting out of bounds");
 		}
 
-		node *aux = sentinel;
+		node* aux = sentinel->succ;
 		for (int i = 0; i < position; ++i) {
 			aux = aux->succ;
 		}
@@ -171,7 +195,7 @@ public:
 			T removed = this->sentinel->pred->item;
 			this->sentinel->pred = this->sentinel->pred->pred;
 			delete this->sentinel->pred->succ;
-			this->sentinel->pred->succ = 0;
+			this->sentinel->pred->succ = this->sentinel;
 			--this->count;
 			return removed;
 		} else {
@@ -187,7 +211,7 @@ public:
 		} else if (position < 0 && position >= this->count) {
 			throw std::out_of_range("Invalid position.");
 		}
-		node* exNode = this->sentinel; // será o nó que estava na posição escolhida
+		node* exNode = this->sentinel->succ; // será o nó que estava na posição escolhida
 		for (int i = 0; i < position; ++i) {
 			exNode = exNode->succ;
 		}
@@ -204,9 +228,9 @@ public:
 			throw std::out_of_range("Empty list.");
 		} else {
 			T removed = this->sentinel->item;
-			this->sentinel = this->sentinel->succ;
-			delete this->sentinel->pred;
-			this->sentinel->pred = 0;
+			this->sentinel->succ = this->sentinel->succ->succ;
+			delete this->sentinel->succ->pred;
+			this->sentinel->succ->pred = this->sentinel;
 			--this->count;
 			return removed;
 		}

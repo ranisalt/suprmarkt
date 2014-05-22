@@ -7,9 +7,7 @@
 
 #include <suprmarkt/client/ClientFactory.h>
 
-#include <suprmarkt/client/Payment.h>
-#include <suprmarkt/client/PaymentCheck.h>
-#include <suprmarkt/client/PaymentMoney.h>
+using suprmarkt::client::Payment;
 
 // rand()
 #include <stdlib.h>
@@ -18,14 +16,10 @@ namespace suprmarkt {
 namespace client {
 
 Client ClientFactory::makeClient() {
-	Payment paymentType;
-	if (rand() % 5)
-		paymentType = PaymentMoney();
-	else
-		paymentType = PaymentCheck();
+	Payment paymentType = (rand() % 5) ? Payment::MONEY : Payment::CHECK;
 
-	int cartSize = rand() % 99 + 2;
-	double cartValue = rand() % 8901 / 100.0 + 1;
+	int cartSize = (rand() % 99) + 2;
+	double cartValue = (rand() % 8901 / 100.0) + 1;
 
 	Client c = Client(cartSize, cartValue, paymentType);
 	return c;

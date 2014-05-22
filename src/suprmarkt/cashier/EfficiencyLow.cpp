@@ -7,23 +7,16 @@
 
 #include <suprmarkt/cashier/EfficiencyLow.h>
 
-#include <suprmarkt/client/PaymentCheck.h>
-using suprmarkt::client::PaymentCheck;
-
-#include <suprmarkt/client/PaymentMoney.h>
-using suprmarkt::client::PaymentMoney;
+#include <suprmarkt/client/Client.h>
+using suprmarkt::client::Payment;
 
 namespace suprmarkt {
 namespace cashier {
 
-Efficiency* EfficiencyLow::copy() const {
-	return new EfficiencyLow();
-}
-
 int EfficiencyLow::paymentTime(const Payment& paymentType) const {
-	/*if (&PaymentCheck::getInstance() == &paymentType) {
-		return 10;
-	}*/
+	if (Payment::CHECK == paymentType) {
+		return 60;
+	}
 	return 0;
 }
 

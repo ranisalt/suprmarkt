@@ -9,6 +9,7 @@
 
 #include <suprmarkt/client/Client.h>
 using suprmarkt::client::Client;
+using suprmarkt::client::Payment;
 
 #include <suprmarkt/client/ClientFactory.h>
 using suprmarkt::client::ClientFactory;
@@ -25,5 +26,16 @@ TEST_F(ClientTest, clientHasCorrectData) {
 	EXPECT_LT(0.99, c.cartValue());
 }
 
-TEST_F(ClientTest, cashierAcceptDataChange) {
+TEST_F(ClientTest, clientHasCorrectProportions) {
+	int check{0}, money{0};
+	for (int i = 0; i < 1000000; ++i) {
+		Payment p = ClientFactory::makeClient().paymentType();
+		if (Payment::CHECK == p) {
+			++check;
+		} else {
+			++money;
+		}
+	}
+	EXPECT_NEAR(check, 200000, 1000);
+	EXPECT_NEAR(money, 800000, 1000);
 }
