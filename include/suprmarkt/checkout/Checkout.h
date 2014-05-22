@@ -8,9 +8,7 @@
 #ifndef CHECKOUT_H_
 #define CHECKOUT_H_
 
-//#include <structures/List.h>
-#include <deque>
-using std::deque;
+#include <structures/List.h>
 
 #include <suprmarkt/cashier/Cashier.h>
 using suprmarkt::cashier::Cashier;
@@ -23,12 +21,11 @@ namespace checkout {
 
 class Checkout {
 	Cashier _cashier;
-	//List<Client> _queue;
-	deque<Client> _queue;
+	List<Client> _queue;
 
 public:
-	//Checkout(const Cashier&, const List<Client>&);
-	Checkout(const Cashier&, const deque<Client>&);
+	Checkout();
+	Checkout(const Cashier&, const List<Client>&);
 	virtual ~Checkout();
 
 	Cashier cashier() const;

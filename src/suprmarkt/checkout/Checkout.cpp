@@ -10,8 +10,7 @@
 namespace suprmarkt {
 namespace checkout {
 
-//Checkout::Checkout(const Cashier& cashier, const List<Client>& queue) :
-Checkout::Checkout(const Cashier& cashier, const deque<Client>& queue) :
+Checkout::Checkout(const Cashier& cashier, const List<Client>& queue) :
 		_cashier(cashier), _queue(queue) {
 }
 
