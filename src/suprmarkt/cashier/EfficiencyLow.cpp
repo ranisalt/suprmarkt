@@ -13,6 +13,10 @@ using suprmarkt::client::Payment;
 namespace suprmarkt {
 namespace cashier {
 
+int EfficiencyLow::itemFactor() const {
+	return 4;
+}
+
 int EfficiencyLow::paymentTime(const Payment& paymentType) const {
 	if (Payment::CHECK == paymentType) {
 		return 60;

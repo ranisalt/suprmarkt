@@ -5,10 +5,19 @@
  *      Author: ranieri
  */
 
-#include <suprmarkt/cashier/Cashier.h>
+#include <string>
+using std::string;
+
+#include "suprmarkt/cashier/Cashier.h"
+
+using suprmarkt::client::Payment;
 
 namespace suprmarkt {
 namespace cashier {
+
+Cashier::Cashier() :
+		_name(), _salary(), _efficiency(), _clientsServed(), _totalSold(), _totalIncome() {
+}
 
 Cashier::Cashier(const string& name, double salary, Efficiency* efficiency) :
 		_name(name), _salary(salary), _efficiency(efficiency), _clientsServed(), _totalSold(), _totalIncome() {
@@ -33,8 +42,12 @@ void Cashier::salary(double salary) {
 	_salary = salary;
 }
 
-Efficiency& Cashier::efficiency() const {
-	return *_efficiency;
+Efficiency* Cashier::efficiency() const {
+	return _efficiency;
+}
+
+void Cashier::efficiency(Efficiency* efficiency) {
+	_efficiency = efficiency;
 }
 
 int Cashier::clientsServed() const {
@@ -61,7 +74,7 @@ void Cashier::totalIncome(double totalIncome) {
 	_totalIncome = totalIncome;
 }
 
-void receivePayment(int cartSize, int cartValue, Payment* paymentMethod) {
+void receivePayment(int cartSize, int cartValue, const Payment& paymentMethod) {
 
 }
 

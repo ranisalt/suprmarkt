@@ -8,15 +8,19 @@
 #ifndef SUPRMARKT_H_
 #define SUPRMARKT_H_
 
-#include <structures/List.h>
+#include <string>
+#include "structures/List.h"
 
-#include <suprmarkt/checkout/Checkout.h>
+#include "suprmarkt/checkout/Checkout.h"
 using suprmarkt::checkout::Checkout;
 
 namespace suprmarkt {
 
 class Suprmarkt {
+	typedef std::string string;
+
 	string _name;
+	int _time;
 	List<Checkout> _queues;
 
 public:
@@ -25,6 +29,13 @@ public:
 
 	string name() const;
 	void name(const string& name);
+
+	int time() const;
+	void time(int time);
+
+	void addCheckout(const Checkout& checkout);
+
+	double income() const;
 
 	void run();
 };

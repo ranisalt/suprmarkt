@@ -8,21 +8,23 @@
 #ifndef EFFICIENCY_H_
 #define EFFICIENCY_H_
 
-#include <suprmarkt/client/Client.h>
+#include "suprmarkt/client/Client.h"
+
 using suprmarkt::client::Client;
-using suprmarkt::client::Payment;
 
 namespace suprmarkt {
 namespace cashier {
 
 class Efficiency {
 public:
+    typedef client::Payment Payment;
+
 	virtual ~Efficiency();
 
 	int processTime(const Client&) const;
 
 protected:
-	int itemFactor;
+	virtual int itemFactor() const = 0;
 	virtual int paymentTime(const Payment& paymentType) const = 0;
 };
 

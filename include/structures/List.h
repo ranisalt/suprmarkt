@@ -23,7 +23,7 @@ class List {
 		T item;
 	};
 
-	node *sentinel;
+	node* _sentinel;
 	int count;
 
 	template<typename U>
@@ -109,14 +109,14 @@ class List {
 
 public:
 	List() :
-			sentinel(new node(0, 0, T())), count(0) {
-		sentinel->succ = sentinel->pred = sentinel;
+			_sentinel(new node(0, 0, T())), count(0) {
+		_sentinel->succ = _sentinel->pred = _sentinel;
 	}
 
 	virtual ~List() {
-		while (sentinel->succ != sentinel) {
-			this->sentinel->succ = this->sentinel->succ->succ;
-			delete this->sentinel->succ->pred;
+		while (_sentinel->succ != _sentinel) {
+			this->_sentinel->succ = this->_sentinel->succ->succ;
+			delete this->_sentinel->succ->pred;
 		}
 	}
 
@@ -129,11 +129,11 @@ public:
 	}
 
 	T back() const {
-		return sentinel->pred->item;
+		return _sentinel->pred->item;
 	}
 
 	T front() const {
-		return sentinel->succ->item;
+		return _sentinel->succ->item;
 	}
 
 	/**
@@ -150,7 +150,7 @@ public:
 			throw std::out_of_range("Inserting out of bounds");
 		}
 
-		node* aux = sentinel->succ;
+		node* aux = _sentinel->succ;
 		for (int i = 0; i < position; ++i) {
 			aux = aux->succ;
 		}
@@ -171,8 +171,8 @@ public:
 		 *** Sucessor do predecessor da sentinela aponta para novo item
 		 *** Predecessor da sentinela aponta para novo item
 		 */
-		sentinel->pred = sentinel->pred->succ = new node(sentinel->pred,
-				sentinel, item);
+		_sentinel->pred = _sentinel->pred->succ = new node(_sentinel->pred,
+				_sentinel, item);
 		++this->count;
 	}
 
@@ -182,8 +182,8 @@ public:
 		 *** Predecessor do sucessor da sentinela aponta para novo item
 		 *** Sucessor da sentinela aponta para novo item
 		 */
-		sentinel->succ = sentinel->succ->pred = new node(sentinel,
-				sentinel->succ, item);
+		_sentinel->succ = _sentinel->succ->pred = new node(_sentinel,
+				_sentinel->succ, item);
 		++this->count;
 	}
 
@@ -192,10 +192,10 @@ public:
 	 */
 	T pop_back() {
 		if (this->count) {
-			T removed = this->sentinel->pred->item;
-			this->sentinel->pred = this->sentinel->pred->pred;
-			delete this->sentinel->pred->succ;
-			this->sentinel->pred->succ = this->sentinel;
+			T removed = this->_sentinel->pred->item;
+			this->_sentinel->pred = this->_sentinel->pred->pred;
+			delete this->_sentinel->pred->succ;
+			this->_sentinel->pred->succ = this->_sentinel;
 			--this->count;
 			return removed;
 		} else {
@@ -211,7 +211,7 @@ public:
 		} else if (position < 0 && position >= this->count) {
 			throw std::out_of_range("Invalid position.");
 		}
-		node* exNode = this->sentinel->succ; // será o nó que estava na posição escolhida
+		node* exNode = this->_sentinel->succ; // será o nó que estava na posição escolhida
 		for (int i = 0; i < position; ++i) {
 			exNode = exNode->succ;
 		}
@@ -227,10 +227,10 @@ public:
 		if (this->empty()) {
 			throw std::out_of_range("Empty list.");
 		} else {
-			T removed = this->sentinel->item;
-			this->sentinel->succ = this->sentinel->succ->succ;
-			delete this->sentinel->succ->pred;
-			this->sentinel->succ->pred = this->sentinel;
+			T removed = this->_sentinel->item;
+			this->_sentinel->succ = this->_sentinel->succ->succ;
+			delete this->_sentinel->succ->pred;
+			this->_sentinel->succ->pred = this->_sentinel;
 			--this->count;
 			return removed;
 		}
@@ -240,35 +240,35 @@ public:
 	typedef iterator_base<const T> const_iterator;
 
 	iterator begin() {
-		return iterator(this->sentinel->succ);
+		return iterator(this->_sentinel->succ);
 	}
 
 	iterator end() {
-		return iterator(this->sentinel);
+		return iterator(this->_sentinel);
 	}
 
 	iterator rbegin() {
-		return iterator(this->sentinel->pred);
+		return iterator(this->_sentinel->pred);
 	}
 
 	iterator rend() {
-		return iterator(this->sentinel);
+		return iterator(this->_sentinel);
 	}
 
 	const_iterator begin() const {
-		return const_iterator(this->sentinel->succ);
+		return const_iterator(this->_sentinel->succ);
 	}
 
 	const_iterator end() const {
-		return const_iterator(this->sentinel);
+		return const_iterator(this->_sentinel);
 	}
 
 	const_iterator rbegin() const {
-		return const_iterator(this->sentinel->pred);
+		return const_iterator(this->_sentinel->pred);
 	}
 
 	const_iterator rend() const {
-		return const_iterator(this->sentinel);
+		return const_iterator(this->_sentinel);
 	}
 };
 

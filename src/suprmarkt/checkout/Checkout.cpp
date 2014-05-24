@@ -10,11 +10,18 @@
 namespace suprmarkt {
 namespace checkout {
 
-Checkout::Checkout(const Cashier& cashier, const List<Client>& queue) :
-		_cashier(cashier), _queue(queue) {
+Checkout::Checkout() {
+}
+
+Checkout::Checkout(const Cashier& cashier) :
+		_cashier(cashier), _queue() {
 }
 
 Checkout::~Checkout() {
+}
+
+Cashier Checkout::cashier() const {
+	return _cashier;
 }
 
 void Checkout::dequeue(int time) {
@@ -30,9 +37,12 @@ void Checkout::dequeue(int time) {
 }
 
 void Checkout::enqueue(Client& client) {
-	int leavingTime = _cashier.efficiency().processTime(client);
-	leavingTime +=
-			_queue.size() ? _queue.back().leavingTime() : client.arrivalTime();
+	int leavingTime = _cashier.efficiency()->processTime(client);
+	if (_queue.size()) {
+		leavingTime += _queue.back().leavingTime();
+	} else {
+		leavingTime += client.arrivalTime();
+	}
 	client.leavingTime(leavingTime);
 	_queue.push_back(client);
 }

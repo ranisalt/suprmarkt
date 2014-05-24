@@ -16,7 +16,7 @@ using suprmarkt::client::ClientFactory;
 
 class ClientTest: public testing::Test {
 public:
-	Client c = ClientFactory::makeClient();
+	Client c = ClientFactory::makeClient(0);
 };
 
 TEST_F(ClientTest, clientHasCorrectData) {
@@ -29,7 +29,7 @@ TEST_F(ClientTest, clientHasCorrectData) {
 TEST_F(ClientTest, clientHasCorrectProportions) {
 	int check{0}, money{0};
 	for (int i = 0; i < 1000000; ++i) {
-		Payment p = ClientFactory::makeClient().paymentType();
+		Payment p = ClientFactory::makeClient(0).paymentType();
 		if (Payment::CHECK == p) {
 			++check;
 		} else {

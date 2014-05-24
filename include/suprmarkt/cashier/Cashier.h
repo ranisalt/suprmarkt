@@ -9,15 +9,18 @@
 #define CASHIER_H_
 
 #include <string>
-using std::string;
-
-#include <suprmarkt/cashier/Efficiency.h>
+#include "suprmarkt/client/Client.h"
+#include "suprmarkt/cashier/Efficiency.h"
 
 namespace suprmarkt {
 namespace cashier {
 
 class Cashier {
 public:
+	typedef std::string string;
+	typedef client::Payment Payment;
+
+	Cashier();
 	Cashier(const string& name, double salary, Efficiency* efficiency);
 	virtual ~Cashier();
 
@@ -27,7 +30,8 @@ public:
 	double salary() const;
 	void salary(double name);
 
-	Efficiency& efficiency() const;
+	Efficiency* efficiency() const;
+	void efficiency(Efficiency* efficiency);
 
 	int clientsServed() const;
 	void clientsServed(int clientsServed);

@@ -14,7 +14,7 @@ Efficiency::~Efficiency() {
 }
 
 int Efficiency::processTime(const Client& client) const {
-	return client.cartSize() * itemFactor
+	return client.cartSize() * this->itemFactor()
 			+ this->paymentTime(client.paymentType());
 }
 

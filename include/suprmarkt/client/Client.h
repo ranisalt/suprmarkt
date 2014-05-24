@@ -8,15 +8,29 @@
 #ifndef CLIENT_H_
 #define CLIENT_H_
 
-namespace suprmarkt {
-namespace client {
+#include "structures/List.h"
 
-enum Payment { CHECK, MONEY };
+namespace suprmarkt {
+
+namespace checkout {
+class Checkout;
+}
+
+namespace client {
+	enum Payment {
+		CHECK, MONEY
+	};
+	enum Preference {
+		FEWER, SHORTER
+	};
 
 class Client {
 public:
+    typedef checkout::Checkout Checkout;
+
 	Client();
-	Client(int, double, const Payment&);
+	Client(int, double, int arrivalTime, const Payment&, const Preference&);
+	Client(const Client&);
 	virtual ~Client();
 
 	int arrivalTime() const;
@@ -29,6 +43,7 @@ public:
 	double cartValue() const;
 
 	Payment paymentType() const;
+	void enterBestQueue(List<Checkout>& queues);
 
 private:
 	int _arrivalTime;
@@ -37,6 +52,7 @@ private:
 	int _cartSize;
 	double _cartValue;
 	Payment _paymentType;
+	Preference _preferenceQueue;
 };
 
 } /* namespace client */

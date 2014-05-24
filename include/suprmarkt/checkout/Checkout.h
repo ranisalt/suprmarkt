@@ -25,7 +25,7 @@ class Checkout {
 
 public:
 	Checkout();
-	Checkout(const Cashier&, const List<Client>&);
+	Checkout(const Cashier& cashier);
 	virtual ~Checkout();
 
 	Cashier cashier() const;

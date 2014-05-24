@@ -7,15 +7,15 @@ EXEC=build/suprmarkt
 TEST=$(EXEC)_test
 
 SRC=$(shell find src -iname '*.cpp') main.cpp
-TEST_SRC=$(shell find src tests -iname '*.cpp') main_test.cpp
+SRC_TEST=$(shell find src tests -iname '*.cpp') main_test.cpp
 
-all: test
+all: compile
 
-build:
+compile:
 	@$(CXX) -o $(EXEC) $(SRC) $(CXXFLAGS)
 
 test:
-	@$(CXX) -o $(TEST) $(TEST_SRC) $(CXXFLAGS) -lgtest -pthread
+	@$(CXX) -o $(TEST) $(SRC_TEST) $(CXXFLAGS) -lgtest -pthread
 	@./$(TEST)
 
 clean:

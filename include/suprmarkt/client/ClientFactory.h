@@ -15,7 +15,7 @@ namespace client {
 
 class ClientFactory {
 public:
-	static Client makeClient();
+	static Client makeClient(int time);
 };
 
 } /* namespace client */

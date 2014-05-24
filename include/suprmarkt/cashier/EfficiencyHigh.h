@@ -15,6 +15,7 @@ namespace cashier {
 
 class EfficiencyHigh: public Efficiency {
 protected:
+	int itemFactor() const;
 	int paymentTime(const Payment& paymentType) const;
 };
 
