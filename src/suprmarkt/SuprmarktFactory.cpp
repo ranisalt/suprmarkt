@@ -5,26 +5,28 @@
  *      Author: ranieri
  */
 
-#include <suprmarkt/SuprmarktFactory.h>
-
-#include <suprmarkt/cashier/EfficiencyLow.h>
-using suprmarkt::cashier::EfficiencyLow;
-
-#include <suprmarkt/cashier/EfficiencyMedium.h>
-using suprmarkt::cashier::EfficiencyMedium;
-
-#include <suprmarkt/cashier/EfficiencyHigh.h>
-using suprmarkt::cashier::EfficiencyHigh;
-
+#include <fstream>
 #include <iostream>
+#include <limits>
+#include <sstream>
+#include <string>
+#include "suprmarkt/SuprmarktFactory.h"
+#include "suprmarkt/cashier/EfficiencyLow.h"
+#include "suprmarkt/cashier/EfficiencyMedium.h"
+#include "suprmarkt/cashier/EfficiencyHigh.h"
 using std::cin;
 using std::cout;
 using std::endl;
 using std::getline;
-using std::streamsize;
-
-#include <limits>
+using std::ifstream;
+using std::ios;
 using std::numeric_limits;
+using std::streamsize;
+using std::string;
+using std::stringstream;
+using suprmarkt::cashier::EfficiencyLow;
+using suprmarkt::cashier::EfficiencyMedium;
+using suprmarkt::cashier::EfficiencyHigh;
 
 namespace suprmarkt {
 
@@ -117,18 +119,110 @@ Suprmarkt SuprmarktFactory::makeSupermarket() {
 	return super;
 }
 
-Suprmarkt SuprmarktFactory::makeSupermarket(string filename) {
+string getLine(ifstream& file) {
+	string input;
+	do {
+		getline(file, input);
+		input = input.substr(input.find_first_not_of(' '),
+				input.find_first_of('#'));
+	} while (input.empty());
+	return input;
+}
+
+Suprmarkt SuprmarktFactory::makeSupermarket(char* filename) {
 	Suprmarkt super = Suprmarkt();
 
-	{
-		string nome;
-		cout << "Informe o nome do supermercado: ";
-		cin >> nome;
-		super.name(nome);
-	}
+	ifstream file;
+	file.open(filename);
 
-	{
+	if (file.is_open()) {
+		{
+			string name = getLine(file);
+			super.name(name);
+		}
 
+		{
+			int time = 0;
+
+			if (!(stringstream(getLine(file)) >> time)) {
+				cout
+						<< "Erro: o tempo não está corretamente formatado. Leia a documentação.\n";
+				exit(2);
+			}
+			if (time <= 0) {
+				cout
+						<< "Erro: o tempo não pode ser menor ou igual a zero. Leia a documentação.\n";
+				exit(2);
+			}
+			super.time(time * 60 * 60);
+		}
+
+		{
+			int avgClientArrival = 0;
+			if (!(stringstream(getLine(file)) >> avgClientArrival)) {
+				cout
+						<< "Erro: o tempo médio de chegada de clientes não está corretamente formatado. Leia a documentação.\n";
+				exit(2);
+			} else if (avgClientArrival <= 0) {
+				cout
+						<< "Erro: o tempo médio de chegada de clientes não pode ser menor ou igual a zero. Leia a documentação.\n";
+				exit(2);
+			}
+			super.avgClientArrival(avgClientArrival);
+		}
+
+		{
+			int numCashiers = 0;
+			if (!(stringstream(getLine(file)) >> numCashiers)) {
+				cout
+						<< "Erro: a número de caixas não está corretamente formatado. Leia a documentação.\n";
+				exit(2);
+			} else if (numCashiers <= 0) {
+				cout
+						<< "Erro: o número de caixas não pode ser menor ou igual a zero. Leia a documentação.\n";
+				exit(2);
+			}
+
+			for (int i = 0; i < numCashiers; ++i) {
+				Cashier cashier;
+				string name;
+				int efficiency;
+				double salary;
+				if (stringstream(getLine(file)) >> name >> efficiency
+						>> salary) {
+					cashier.name(name);
+					cashier.salary(salary);
+					cout << efficiency;
+					switch (efficiency) {
+					case 1:
+						cashier.efficiency(new EfficiencyLow());
+						break;
+					case 2:
+						cashier.efficiency(new EfficiencyMedium());
+						break;
+					case 3:
+						cashier.efficiency(new EfficiencyHigh());
+						break;
+					default:
+						cout << "Erro: o caixa " << name
+								<< " não está configurado corretamente. Leia a documentação.\n";
+						exit(3);
+						break;
+					}
+				} else {
+					cout << "Erro: o caixa " << name
+							<< " não está configurado corretamente. Leia a documentação.\n";
+					exit(3);
+				}
+				Checkout queue = Checkout(cashier);
+
+				super.addCheckout(queue);
+			}
+		}
+	} else {
+		cout
+				<< "Erro: o arquivo de configuração não pôde ser aberto. Leia a documentação.\n";
+		exit(1);
 	}
 
 	return super;

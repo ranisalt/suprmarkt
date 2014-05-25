@@ -21,6 +21,7 @@ class Suprmarkt {
 
 	string _name;
 	int _time;
+	int _avgClientArrival;
 	List<Checkout> _queues;
 
 public:
@@ -32,6 +33,9 @@ public:
 
 	int time() const;
 	void time(int time);
+
+	int avgClientArrival() const;
+	void avgClientArrival(int avgClientArrival);
 
 	void addCheckout(const Checkout& checkout);
 

@@ -14,9 +14,8 @@ namespace suprmarkt {
 namespace cashier {
 
 class EfficiencyMedium: public Efficiency {
-protected:
-	int itemFactor() const;
-	int paymentTime(const Payment& paymentType) const;
+public:
+	int processTime(const Client&) const ;
 };
 
 } /* namespace cashier */

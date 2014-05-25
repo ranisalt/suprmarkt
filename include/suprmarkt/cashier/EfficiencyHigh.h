@@ -8,15 +8,14 @@
 #ifndef EFFICIENCYHIGH_H_
 #define EFFICIENCYHIGH_H_
 
-#include <suprmarkt/cashier/Efficiency.h>
+#include "suprmarkt/cashier/Efficiency.h"
 
 namespace suprmarkt {
 namespace cashier {
 
 class EfficiencyHigh: public Efficiency {
-protected:
-	int itemFactor() const;
-	int paymentTime(const Payment& paymentType) const;
+public:
+	int processTime(const Client&) const;
 };
 
 } /* namespace cashier */

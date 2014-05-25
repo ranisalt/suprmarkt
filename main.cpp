@@ -1,23 +1,25 @@
 #include <iostream>
 using std::cout;
 
-#include <suprmarkt/Suprmarkt.h>
+#include <string.h>
+
+#include "suprmarkt/Suprmarkt.h"
 using suprmarkt::Suprmarkt;
 
-#include <suprmarkt/SuprmarktFactory.h>
+#include "suprmarkt/SuprmarktFactory.h"
 using suprmarkt::SuprmarktFactory;
 
 int main(int argc, char** argv) {
-	Suprmarkt super = SuprmarktFactory::makeSupermarket();
-
-	for (int i = 0; i < argc; ++i) {
-		cout << argv[i] << '\n';
-	}
+	Suprmarkt super;
+	if (argc == 3 && !strcmp("-f", argv[1]))
+		super = SuprmarktFactory::makeSupermarket(argv[2]);
+	else
+		super = SuprmarktFactory::makeSupermarket();
 
 	super.run();
 
-	auto _totalIncome = super.income();
-	cout << _totalIncome;
+	/*auto _totalIncome = super.income();
+	 cout << _totalIncome;*/
 
 	return 0;
 }

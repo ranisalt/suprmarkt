@@ -13,10 +13,5 @@ namespace cashier {
 Efficiency::~Efficiency() {
 }
 
-int Efficiency::processTime(const Client& client) const {
-	return client.cartSize() * this->itemFactor()
-			+ this->paymentTime(client.paymentType());
-}
-
 } /* namespace cashier */
 } /* namespace suprmarkt */

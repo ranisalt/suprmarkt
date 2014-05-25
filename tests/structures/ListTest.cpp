@@ -5,15 +5,16 @@
  *      Author: ranieri
  */
 
-#include <gtest/gtest.h>
-
 #include <iostream>
 #include <string>
 using std::string;
 
-#include <structures/List.h>
+#include <gtest/gtest.h>
+using testing::Test;
 
-class ListTest: public testing::Test {
+#include "structures/List.h"
+
+class ListTest: public Test {
 public:
 	List<string> l;
 

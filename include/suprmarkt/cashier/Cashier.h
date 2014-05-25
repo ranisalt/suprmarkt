@@ -30,7 +30,7 @@ public:
 	double salary() const;
 	void salary(double name);
 
-	Efficiency* efficiency() const;
+	int processTime(const Client& client) const;
 	void efficiency(Efficiency* efficiency);
 
 	int clientsServed() const;

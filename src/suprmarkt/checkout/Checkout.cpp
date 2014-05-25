@@ -5,7 +5,7 @@
  *      Author: ranieri
  */
 
-#include <suprmarkt/checkout/Checkout.h>
+#include "suprmarkt/checkout/Checkout.h"
 
 namespace suprmarkt {
 namespace checkout {
@@ -28,8 +28,9 @@ void Checkout::dequeue(int time) {
 	if (_queue.empty())
 		return;
 
-	const Client& client = _queue.front();
+	Client client = _queue.front();
 	if (time == client.leavingTime()) {
+		std::cout << "Chegou aqui alguma vez";
 		_cashier.clientsServed(_cashier.clientsServed() + 1);
 		_cashier.totalIncome(_cashier.totalIncome() + client.cartValue());
 		_queue.pop_front();
@@ -37,12 +38,12 @@ void Checkout::dequeue(int time) {
 }
 
 void Checkout::enqueue(Client& client) {
-	int leavingTime = _cashier.efficiency()->processTime(client);
-	if (_queue.size()) {
-		leavingTime += _queue.back().leavingTime();
-	} else {
+	int leavingTime = _cashier.processTime(client);
+	if (_queue.empty())
 		leavingTime += client.arrivalTime();
-	}
+	else
+		leavingTime += _queue.back().leavingTime();
+
 	client.leavingTime(leavingTime);
 	_queue.push_back(client);
 }

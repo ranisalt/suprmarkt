@@ -13,15 +13,12 @@ using suprmarkt::client::Payment;
 namespace suprmarkt {
 namespace cashier {
 
-int EfficiencyMedium::itemFactor() const {
-	return 2;
-}
-
-int EfficiencyMedium::paymentTime(const Payment& paymentType) const {
-	if (Payment::CHECK == paymentType) {
-		return 25;
+int EfficiencyMedium::processTime(const Client& client) const {
+	int time = client.cartSize() * 2;
+	if (Payment::CHECK == client.paymentType()) {
+		time += 25;
 	}
-	return 0;
+	return time;
 }
 
 } /* namespace cashier */

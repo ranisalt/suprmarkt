@@ -48,8 +48,6 @@ int Client::leavingTime() const {
 }
 
 void Client::leavingTime(int leavingTime) {
-	using std::cout;
-	cout << "adicionando, n, mais que adicionando:" << leavingTime << '\n';
 	_leavingTime = leavingTime;
 }
 
@@ -66,26 +64,20 @@ Payment Client::paymentType() const {
 }
 
 void Client::enterBestQueue(List<Checkout>& queues) {
+	auto chosen = queues.begin();
 	if (Preference::FEWER == _preferenceQueue) {
-		auto chosen = queues.begin();
-		for (auto it = ++queues.begin(); it != queues.end(); ++it) {
+		for (auto it = ++queues.begin(); it != queues.end(); ++it)
 			if (it->countItems() < chosen->countItems() && it->length() < 10)
 				chosen = it;
-		}
-		if (chosen->length() < 10) {
-			chosen->enqueue(*this);
-			return;
-		}
 	} else if (Preference::SHORTER == _preferenceQueue) {
 		auto chosen = queues.begin();
-		for (auto it = ++queues.begin(); it != queues.end(); ++it) {
+		for (auto it = ++queues.begin(); it != queues.end(); ++it)
 			if (it->length() < chosen->length())
 				chosen = it;
-		}
-		if (chosen->length() < 10) {
-			chosen->enqueue(*this);
-			return;
-		}
+	}
+	if (chosen->length() < 10) {
+		chosen->enqueue(*this);
+		return;
 	}
 	throw std::exception();
 }

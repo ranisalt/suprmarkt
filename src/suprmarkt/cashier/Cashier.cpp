@@ -42,8 +42,8 @@ void Cashier::salary(double salary) {
 	_salary = salary;
 }
 
-Efficiency* Cashier::efficiency() const {
-	return _efficiency;
+int Cashier::processTime(const Client& client) const {
+	return _efficiency->processTime(client);
 }
 
 void Cashier::efficiency(Efficiency* efficiency) {

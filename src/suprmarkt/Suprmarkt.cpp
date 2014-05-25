@@ -18,7 +18,7 @@ using suprmarkt::client::ClientFactory;
 namespace suprmarkt {
 
 Suprmarkt::Suprmarkt() :
-		_name(), _time(), _queues() {
+		_name(), _time(), _avgClientArrival(), _queues() {
 }
 
 Suprmarkt::~Suprmarkt() {
@@ -40,6 +40,14 @@ void Suprmarkt::time(int time) {
 	_time = time;
 }
 
+int Suprmarkt::avgClientArrival() const {
+	return _avgClientArrival;
+}
+
+void Suprmarkt::avgClientArrival(int avgClientArrival) {
+	_avgClientArrival = avgClientArrival;
+}
+
 void Suprmarkt::addCheckout(const Checkout& checkout) {
 	_queues.push_back(checkout);
 }
@@ -59,6 +67,10 @@ void Suprmarkt::run() {
 	double _lostMoney = 0.0;
 
 	while (_run < _time) {
+		for (auto checkout : _queues) {
+			checkout.dequeue(_run);
+		}
+
 		if (_run == _timeForNextClient) {
 			auto client = ClientFactory::makeClient(_run);
 			try {
@@ -71,17 +83,13 @@ void Suprmarkt::run() {
 			_timeForNextClient += (rand() % 3) + 6;
 		}
 
-		for (auto checkout : _queues) {
-			checkout.dequeue(_run);
-		}
-
 		++_run;
 	}
 
 	for (auto checkout : _queues) {
 		/*cout << checkout.cashier().name() << '\n';
-		cout << checkout.length() << '\n';
-		cout << _lostClients << '\n';*/
+		 cout << checkout.length() << '\n';
+		 cout << _lostClients << '\n';*/
 	}
 }
 

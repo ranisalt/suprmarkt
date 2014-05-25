@@ -11,14 +11,14 @@
 #include <string>
 using std::string;
 
-#include <suprmarkt/Suprmarkt.h>
+#include "suprmarkt/Suprmarkt.h"
 
 namespace suprmarkt {
 
 class SuprmarktFactory {
 public:
 	static Suprmarkt makeSupermarket();
-	static Suprmarkt makeSupermarket(string filename);
+	static Suprmarkt makeSupermarket(char* filename);
 };
 
 } /* namespace suprmarkt */

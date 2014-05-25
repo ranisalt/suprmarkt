@@ -20,12 +20,7 @@ public:
     typedef client::Payment Payment;
 
 	virtual ~Efficiency();
-
-	int processTime(const Client&) const;
-
-protected:
-	virtual int itemFactor() const = 0;
-	virtual int paymentTime(const Payment& paymentType) const = 0;
+	virtual int processTime(const Client&) const = 0;
 };
 
 } /* namespace cashier */
