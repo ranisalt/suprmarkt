@@ -1,20 +1,17 @@
 #include <iostream>
-using std::cout;
-
-#include <string.h>
-
+#include <cstring>
 #include "suprmarkt/Suprmarkt.h"
-using suprmarkt::Suprmarkt;
-
 #include "suprmarkt/SuprmarktFactory.h"
-using suprmarkt::SuprmarktFactory;
+using std::cout;
+using suprmarkt::Suprmarkt;
+using suprmarkt::SuprmarktFactory::makeSupermarket;
 
 int main(int argc, char** argv) {
 	Suprmarkt super;
 	if (argc == 3 && !strcmp("-f", argv[1]))
-		super = SuprmarktFactory::makeSupermarket(argv[2]);
+		super = makeSupermarket(argv[2]);
 	else
-		super = SuprmarktFactory::makeSupermarket();
+		super = makeSupermarket();
 
 	super.run();
 

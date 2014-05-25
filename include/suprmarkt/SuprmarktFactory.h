@@ -9,18 +9,29 @@
 #define SUPRMARKTFACTORY_H_
 
 #include <string>
+#include "suprmarkt/Suprmarkt.h"
 using std::string;
 
-#include "suprmarkt/Suprmarkt.h"
-
 namespace suprmarkt {
+namespace SuprmarktFactory {
 
-class SuprmarktFactory {
-public:
-	static Suprmarkt makeSupermarket();
-	static Suprmarkt makeSupermarket(char* filename);
-};
+/**
+ * @brief Fabrica um supermercado recebendo input direto do usuário.
+ *
+ * @return Supermercado fabricado.
+ */
+Suprmarkt makeSupermarket();
 
+/**
+ * Fabrica um supermercado de acordo com o conteúdo de um arquivo.
+ *
+ * @param filename Nome do arquivo de configuração.
+ *
+ * @return Supermercado fabricado.
+ */
+Suprmarkt makeSupermarket(char* filename);
+
+}
 } /* namespace suprmarkt */
 
 #endif /* SUPRMARKTFACTORY_H_ */

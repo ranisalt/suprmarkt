@@ -24,13 +24,6 @@ Client::Client(int cartSize, double cartValue, int arrivalTime,
 				preference) {
 }
 
-Client::Client(const Client& rhs) :
-		_arrivalTime(rhs._arrivalTime), _leavingTime(rhs._leavingTime), _cartSize(
-				rhs._cartSize), _cartValue(rhs._cartValue), _paymentType(
-				rhs._paymentType), _preferenceQueue(rhs._preferenceQueue) {
-
-}
-
 Client::~Client() {
 	// TODO Auto-generated destructor stub
 }
@@ -76,6 +69,7 @@ void Client::enterBestQueue(List<Checkout>& queues) {
 				chosen = it;
 	}
 	if (chosen->length() < 10) {
+		std::cout << chosen->cashier().name();
 		chosen->enqueue(*this);
 		return;
 	}

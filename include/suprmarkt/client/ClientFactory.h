@@ -8,16 +8,22 @@
 #ifndef CLIENTFACTORY_H_
 #define CLIENTFACTORY_H_
 
-#include <suprmarkt/client/Client.h>
+#include "suprmarkt/client/Client.h"
 
 namespace suprmarkt {
 namespace client {
+namespace ClientFactory {
 
-class ClientFactory {
-public:
-	static Client makeClient(int time);
-};
+/**
+ * @brief Fabrica um Client que chega no supermercado.
+ *
+ * @param time Tempo de chegada do Client.
+ *
+ * @return Client fabricado.
+ */
+Client makeClient(int time);
 
+} /* namespace ClientFactory */
 } /* namespace client */
 } /* namespace suprmarkt */
 

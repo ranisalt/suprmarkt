@@ -7,16 +7,15 @@
 
 #include <gtest/gtest.h>
 
-#include <suprmarkt/client/Client.h>
+#include "suprmarkt/client/Client.h"
+#include "suprmarkt/client/ClientFactory.h"
 using suprmarkt::client::Client;
+using suprmarkt::client::ClientFactory::makeClient;
 using suprmarkt::client::Payment;
-
-#include <suprmarkt/client/ClientFactory.h>
-using suprmarkt::client::ClientFactory;
 
 class ClientTest: public testing::Test {
 public:
-	Client c = ClientFactory::makeClient(0);
+	Client c = makeClient(0);
 };
 
 TEST_F(ClientTest, clientHasCorrectData) {
@@ -29,7 +28,7 @@ TEST_F(ClientTest, clientHasCorrectData) {
 TEST_F(ClientTest, clientHasCorrectProportions) {
 	int check{0}, money{0};
 	for (int i = 0; i < 1000000; ++i) {
-		Payment p = ClientFactory::makeClient(0).paymentType();
+		Payment p = makeClient(0).paymentType();
 		if (Payment::CHECK == p) {
 			++check;
 		} else {

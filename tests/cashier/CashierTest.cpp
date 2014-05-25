@@ -6,20 +6,14 @@
  */
 
 #include <gtest/gtest.h>
-
-#include <suprmarkt/cashier/Cashier.h>
+#include "suprmarkt/cashier/Cashier.h"
 using suprmarkt::cashier::Cashier;
-
-#include <suprmarkt/cashier/EfficiencyHigh.h>
-using suprmarkt::cashier::EfficiencyHigh;
-
-#include <suprmarkt/cashier/EfficiencyMedium.h>
-using suprmarkt::cashier::EfficiencyMedium;
+using suprmarkt::cashier::Efficiency;
 
 class CashierTest: public testing::Test {
 public:
-	Cashier a{"Alice", 700.0, new EfficiencyMedium()};
-	Cashier b{"Bob", 1200.0, new EfficiencyHigh()};
+	Cashier a{"Alice", 700.0, Efficiency::MEDIUM};
+	Cashier b{"Bob", 1200.0, Efficiency::HIGH};
 };
 
 TEST_F(CashierTest, cashierHasCorrectData) {

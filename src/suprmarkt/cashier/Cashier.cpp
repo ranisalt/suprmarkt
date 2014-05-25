@@ -6,10 +6,8 @@
  */
 
 #include <string>
-using std::string;
-
 #include "suprmarkt/cashier/Cashier.h"
-
+using std::string;
 using suprmarkt::client::Payment;
 
 namespace suprmarkt {
@@ -19,7 +17,7 @@ Cashier::Cashier() :
 		_name(), _salary(), _efficiency(), _clientsServed(), _totalSold(), _totalIncome() {
 }
 
-Cashier::Cashier(const string& name, double salary, Efficiency* efficiency) :
+Cashier::Cashier(const string& name, double salary, Efficiency efficiency) :
 		_name(name), _salary(salary), _efficiency(efficiency), _clientsServed(), _totalSold(), _totalIncome() {
 }
 
@@ -43,10 +41,27 @@ void Cashier::salary(double salary) {
 }
 
 int Cashier::processTime(const Client& client) const {
-	return _efficiency->processTime(client);
+	int time = client.cartSize();
+	switch (_efficiency) {
+	case Efficiency::HIGH:
+		if (Payment::CHECK == client.paymentType())
+			time += 10;
+		break;
+	case Efficiency::MEDIUM:
+		time = time << 1;
+		if (Payment::CHECK == client.paymentType())
+			time += 25;
+		break;
+	case Efficiency::LOW:
+		time = time << 2;
+		if (Payment::CHECK == client.paymentType())
+			time += 60;
+		break;
+	}
+	return time;
 }
 
-void Cashier::efficiency(Efficiency* efficiency) {
+void Cashier::efficiency(Efficiency efficiency) {
 	_efficiency = efficiency;
 }
 
@@ -72,10 +87,6 @@ double Cashier::totalIncome() const {
 
 void Cashier::totalIncome(double totalIncome) {
 	_totalIncome = totalIncome;
-}
-
-void receivePayment(int cartSize, int cartValue, const Payment& paymentMethod) {
-
 }
 
 } /* namespace cashier */

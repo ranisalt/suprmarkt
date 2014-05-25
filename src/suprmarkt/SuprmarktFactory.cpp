@@ -10,10 +10,8 @@
 #include <limits>
 #include <sstream>
 #include <string>
+#include "suprmarkt/cashier/Cashier.h"
 #include "suprmarkt/SuprmarktFactory.h"
-#include "suprmarkt/cashier/EfficiencyLow.h"
-#include "suprmarkt/cashier/EfficiencyMedium.h"
-#include "suprmarkt/cashier/EfficiencyHigh.h"
 using std::cin;
 using std::cout;
 using std::endl;
@@ -24,13 +22,12 @@ using std::numeric_limits;
 using std::streamsize;
 using std::string;
 using std::stringstream;
-using suprmarkt::cashier::EfficiencyLow;
-using suprmarkt::cashier::EfficiencyMedium;
-using suprmarkt::cashier::EfficiencyHigh;
+using suprmarkt::cashier::Efficiency;
 
 namespace suprmarkt {
+namespace SuprmarktFactory {
 
-Suprmarkt SuprmarktFactory::makeSupermarket() {
+Suprmarkt makeSupermarket() {
 	Suprmarkt super = Suprmarkt();
 
 	{
@@ -99,13 +96,13 @@ Suprmarkt SuprmarktFactory::makeSupermarket() {
 
 				switch (efficiency) {
 				case 1:
-					cashier.efficiency(new EfficiencyLow());
+					cashier.efficiency(Efficiency::LOW);
 					break;
 				case 2:
-					cashier.efficiency(new EfficiencyMedium());
+					cashier.efficiency(Efficiency::MEDIUM);
 					break;
 				case 3:
-					cashier.efficiency(new EfficiencyHigh());
+					cashier.efficiency(Efficiency::HIGH);
 					break;
 				}
 			}
@@ -129,7 +126,7 @@ string getLine(ifstream& file) {
 	return input;
 }
 
-Suprmarkt SuprmarktFactory::makeSupermarket(char* filename) {
+Suprmarkt makeSupermarket(char* filename) {
 	Suprmarkt super = Suprmarkt();
 
 	ifstream file;
@@ -192,16 +189,15 @@ Suprmarkt SuprmarktFactory::makeSupermarket(char* filename) {
 						>> salary) {
 					cashier.name(name);
 					cashier.salary(salary);
-					cout << efficiency;
 					switch (efficiency) {
 					case 1:
-						cashier.efficiency(new EfficiencyLow());
+						cashier.efficiency(Efficiency::LOW);
 						break;
 					case 2:
-						cashier.efficiency(new EfficiencyMedium());
+						cashier.efficiency(Efficiency::MEDIUM);
 						break;
 					case 3:
-						cashier.efficiency(new EfficiencyHigh());
+						cashier.efficiency(Efficiency::HIGH);
 						break;
 					default:
 						cout << "Erro: o caixa " << name
@@ -225,7 +221,10 @@ Suprmarkt SuprmarktFactory::makeSupermarket(char* filename) {
 		exit(1);
 	}
 
+	file.close();
+
 	return super;
 }
 
+} /* namespace SuprmarktFactory */
 } /* namespace suprmarkt */

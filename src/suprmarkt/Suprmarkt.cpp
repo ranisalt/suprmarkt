@@ -6,14 +6,12 @@
  */
 
 #include <iostream>
-using std::cout;
-
 #include <string>
-using std::string;
-
 #include "suprmarkt/Suprmarkt.h"
 #include "suprmarkt/client/ClientFactory.h"
-using suprmarkt::client::ClientFactory;
+using std::cout;
+using std::string;
+using suprmarkt::client::ClientFactory::makeClient;
 
 namespace suprmarkt {
 
@@ -64,27 +62,31 @@ void Suprmarkt::run() {
 	int _run = 0;
 	int _timeForNextClient = (rand() % 3) + 6;
 	int _lostClients = 0;
+	int _totalClients = 0;
 	double _lostMoney = 0.0;
 
 	while (_run < _time) {
-		for (auto checkout : _queues) {
-			checkout.dequeue(_run);
+		for (auto it = _queues.begin(); it != _queues.end(); ++it) {
+			std::cout << "Cashier\n";
+			it->dequeue(_run);
 		}
 
 		if (_run == _timeForNextClient) {
-			auto client = ClientFactory::makeClient(_run);
+			auto client = makeClient(_run);
+			++_totalClients;
 			try {
 				client.enterBestQueue(_queues);
 			} catch (std::exception& e) {
-				cout << "Cliente perdido no tempo " << _run << '\n';
 				++_lostClients;
 				_lostMoney += client.cartValue();
 			}
-			_timeForNextClient += (rand() % 3) + 6;
+			_timeForNextClient += (rand() % 3) + _avgClientArrival - 1;
 		}
 
 		++_run;
 	}
+
+	cout << _lostClients << '/' << _totalClients;
 
 	for (auto checkout : _queues) {
 		/*cout << checkout.cashier().name() << '\n';
