@@ -13,13 +13,12 @@ namespace suprmarkt {
 namespace client {
 
 Client ClientFactory::makeClient(int time) {
-	Payment paymentType = (rand() % 5) ? Payment::MONEY : Payment::CHECK;
-	Preference preference = (rand() % 2) ? Preference::FEWER : Preference::SHORTER;
+	auto paymentType = (rand() % 5) ? Payment::MONEY : Payment::CHECK;
+	auto preference = (rand() % 2) ? Preference::FEWER : Preference::SHORTER;
 
-	int cartSize = (rand() % 99) + 2;
-	double cartValue = (rand() % 8901 / 100.0) + 1;
-
-	Client c = Client(cartSize, cartValue, time, paymentType, preference);
+	auto cartSize = rand() % 99 + 2;
+	auto cartValue = rand() % 8901 / 100.0 + 1;
+	auto c = Client { cartSize, cartValue, time, paymentType, preference };
 	return c;
 }
 

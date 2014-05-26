@@ -16,10 +16,7 @@ using suprmarkt::client::ClientFactory::makeClient;
 namespace suprmarkt {
 
 Suprmarkt::Suprmarkt() :
-		_name(), _time(), _avgClientArrival(), _queues() {
-}
-
-Suprmarkt::~Suprmarkt() {
+		_name(), _time(), _avgClientArrival(), _totalClients(), _lostClients(), _lostMoney(), _queues() {
 }
 
 string Suprmarkt::name() const {
@@ -46,30 +43,43 @@ void Suprmarkt::avgClientArrival(int avgClientArrival) {
 	_avgClientArrival = avgClientArrival;
 }
 
+List<Checkout> Suprmarkt::checkouts() const {
+	return _queues;
+}
+
 void Suprmarkt::addCheckout(const Checkout& checkout) {
 	_queues.push_back(checkout);
 }
 
 double Suprmarkt::income() const {
-	double total = 0.0;
+	auto total = 0.0;
 	for (auto checkout : _queues) {
 		total += checkout.cashier().totalIncome();
 	}
 	return total;
 }
 
+int Suprmarkt::totalClients() const {
+	return _totalClients;
+}
+
+int Suprmarkt::lostClients() const {
+	return _lostClients;
+}
+
+double Suprmarkt::lostMoney() const {
+	return _lostMoney;
+}
+
 void Suprmarkt::run() {
-	int _run = 0;
-	int _timeForNextClient = (rand() % 3) + 6;
-	int _lostClients = 0;
-	int _totalClients = 0;
-	double _lostMoney = 0.0;
+	_lostClients = _totalClients = 0;
+	_lostMoney = 0.0;
+	auto _run = 0;
+	auto _timeForNextClient = rand() % 3 + _avgClientArrival;
 
 	while (_run < _time) {
-		for (auto it = _queues.begin(); it != _queues.end(); ++it) {
-			std::cout << "Cashier\n";
+		for (auto it = _queues.begin(); it != _queues.end(); ++it)
 			it->dequeue(_run);
-		}
 
 		if (_run == _timeForNextClient) {
 			auto client = makeClient(_run);
@@ -80,13 +90,13 @@ void Suprmarkt::run() {
 				++_lostClients;
 				_lostMoney += client.cartValue();
 			}
-			_timeForNextClient += (rand() % 3) + _avgClientArrival - 1;
+			_timeForNextClient += rand() % 3 + _avgClientArrival - 1;
 		}
 
 		++_run;
 	}
 
-	cout << _lostClients << '/' << _totalClients;
+	cout << _lostClients << '/' << _totalClients << '\n';
 
 	for (auto checkout : _queues) {
 		/*cout << checkout.cashier().name() << '\n';

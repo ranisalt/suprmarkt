@@ -38,7 +38,6 @@ public:
 	 * @param efficiency Ponteiro para a classe de eficiência do Cashier.
 	 */
 	Cashier(const string& name, double salary, Efficiency efficiency);
-	virtual ~Cashier();
 
 	/**
 	 * @brief Acesso ao nome do Cashier.

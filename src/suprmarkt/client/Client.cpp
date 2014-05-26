@@ -24,10 +24,6 @@ Client::Client(int cartSize, double cartValue, int arrivalTime,
 				preference) {
 }
 
-Client::~Client() {
-	// TODO Auto-generated destructor stub
-}
-
 int Client::arrivalTime() const {
 	return _arrivalTime;
 }

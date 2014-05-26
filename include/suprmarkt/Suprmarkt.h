@@ -21,6 +21,9 @@ class Suprmarkt {
 	string _name;
 	int _time;
 	int _avgClientArrival;
+	int _totalClients;
+	int _lostClients;
+	double _lostMoney;
 	List<Checkout> _queues;
 
 public:
@@ -28,7 +31,6 @@ public:
 	 * @brief Construtor padrão do Suprmarkt.
 	 */
 	Suprmarkt();
-	virtual ~Suprmarkt();
 
 	/**
 	 * @brief Acesso ao nome do Suprmarkt.
@@ -72,6 +74,12 @@ public:
 	void avgClientArrival(int avgClientArrival);
 
 	/**
+	 * @brief Contar Checkouts em um Suprmarkt.
+	 * @return Contagem de Checkouts.
+	 */
+	List<Checkout> checkouts() const;
+
+	/**
 	 * @brief Adicionar Checkout ao Suprmarkt.
 	 *
 	 * Adiciona um Checkout completo à lista de Checkouts do Suprmarkt.
@@ -88,6 +96,12 @@ public:
 	 * @return Lucro total do Suprmarkt.
 	 */
 	double income() const;
+
+	int totalClients() const;
+
+	int lostClients() const;
+
+	double lostMoney() const;
 
 	/**
 	 * @brief Executar simulação.

@@ -43,7 +43,6 @@ public:
 	 * @param preference Preferência por fila do Client.
 	 */
 	Client(int cartSize, double cartValue, int arrivalTime, const Payment& payment, const Preference& preference);
-	virtual ~Client();
 
 	/**
 	 * @brief Acesso ao tempo de chegada do Client.

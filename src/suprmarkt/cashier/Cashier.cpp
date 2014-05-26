@@ -21,9 +21,6 @@ Cashier::Cashier(const string& name, double salary, Efficiency efficiency) :
 		_name(name), _salary(salary), _efficiency(efficiency), _clientsServed(), _totalSold(), _totalIncome() {
 }
 
-Cashier::~Cashier() {
-}
-
 string Cashier::name() const {
 	return _name;
 }
@@ -41,7 +38,7 @@ void Cashier::salary(double salary) {
 }
 
 int Cashier::processTime(const Client& client) const {
-	int time = client.cartSize();
+	int time { client.cartSize() };
 	switch (_efficiency) {
 	case Efficiency::HIGH:
 		if (Payment::CHECK == client.paymentType())

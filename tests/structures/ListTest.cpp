@@ -14,67 +14,104 @@
 using std::string;
 using testing::Test;
 
-class ListTest: public Test {
+class ListTest: public testing::Test {
 public:
-	List<suprmarkt::checkout::Checkout> l;
+	List<int> list;
 };
 
-TEST_F(ListTest, sizeIsCorrect) {
-	EXPECT_EQ(0, l.size());
-
-	suprmarkt::cashier::Cashier c("Jorge", 200.0,
-			suprmarkt::cashier::Efficiency::HIGH);
-	suprmarkt::checkout::Checkout f(c);
-
-	suprmarkt::cashier::Cashier d("Frida", 300.0,
-			suprmarkt::cashier::Efficiency::LOW);
-	suprmarkt::checkout::Checkout g(c);
-
-	l.push_back(f);
-	l.push_back(g);
-
-	EXPECT_EQ(2, l.size());
-
-	auto a = l.pop_front();
-	auto b = l.pop_front();
-
-	EXPECT_EQ(0, l.size());
-	EXPECT_EQ("Jorge", a.cashier().name());
-	EXPECT_EQ(200.0, a.cashier().salary());
-
-	EXPECT_EQ("Frida", b.cashier().name());
-	EXPECT_EQ(300.0, b.cashier().salary());
+TEST_F(ListTest, isCreatedEmpty) {
+	EXPECT_EQ(0, list.size());
 }
 
-/*TEST_F(ListTest, pushAndPop) {
- l.push_back("42");
- l.push_back("25");
- EXPECT_EQ(2, l.size());
- EXPECT_EQ("42", l.front());
- l.pop_front();
- EXPECT_EQ("25", l.front());
- l.pop_front();
- }
+TEST_F(ListTest, pushBackPushesOnBack) {
+	list.push_back(42);
+	EXPECT_EQ(1, list.size());
+	EXPECT_EQ(42, list.at(0));
+	list.push_back(1963);
+	EXPECT_EQ(42, list.at(0));
+	EXPECT_EQ(1963, list.at(1));
+	EXPECT_EQ(2, list.size());
+}
 
- TEST_F(ListTest, pushAndPopToPosition) {
- l.push_back("42");
- l.push_back("25");
- l.push(1, "200");
- EXPECT_EQ(3, l.size());
- EXPECT_EQ("200", l.pop(1));
- }
+TEST_F(ListTest, pushFrontPushesOnFront) {
+	list.push_front(42);
+	EXPECT_EQ(1, list.size());
+	EXPECT_EQ(42, list.at(0));
+	list.push_front(1963);
+	EXPECT_EQ(1963, list.at(0));
+	EXPECT_EQ(42, list.at(1));
+	EXPECT_EQ(2, list.size());
+}
 
- TEST_F(ListTest, iterateForward) {
- l.push_back("42");
- l.push_back("25");
- auto it = l.begin();
- EXPECT_EQ("42", *it);
- ++it;
- EXPECT_EQ("25", *it);
- ++it;
- std::cout << *it << '\n';
- ++it;
- EXPECT_EQ("42", *it);
- ++it;
- EXPECT_EQ("25", *it);
- }*/
+TEST_F(ListTest, insert) {
+	list.push_back(42);
+	list.push_back(13);
+	list.push(1, 1963);
+	EXPECT_EQ(42, list.at(0));
+	EXPECT_EQ(1963, list.at(1));
+	EXPECT_EQ(13, list.at(2));
+	EXPECT_EQ(3, list.size());
+}
+
+TEST_F(ListTest, popBack) {
+	list.push_back(42);
+	list.push_back(1963);
+	EXPECT_EQ(1963, list.pop_back());
+	EXPECT_EQ(1, list.size());
+}
+
+TEST_F(ListTest, popFront) {
+	list.push_back(42);
+	list.push_back(1963);
+	EXPECT_EQ(42, list.pop_front());
+	EXPECT_EQ(1, list.size());
+}
+
+TEST_F(ListTest, remove) {
+	list.push_back(42);
+	list.push_back(1963);
+	list.push_back(13);
+	EXPECT_EQ(1963, list.pop(1));
+	EXPECT_EQ(2, list.size());
+}
+
+TEST_F(ListTest, accessOutOfRange) {
+	EXPECT_THROW(list.at(13), std::out_of_range);
+	EXPECT_THROW(list.push(13, 42), std::out_of_range);
+	EXPECT_THROW(list.pop(13), std::out_of_range);
+}
+
+TEST_F(ListTest, boundariesWithNoProblems) {
+	list.push(0, 42);
+	EXPECT_EQ(1, list.size());
+	EXPECT_EQ(42, list.at(0));
+	EXPECT_EQ(42, list.pop(0));
+	EXPECT_EQ(0, list.size());
+}
+
+TEST_F(ListTest, removalsFromEmptyThrow) {
+	EXPECT_THROW(list.pop_back(), std::out_of_range);
+	EXPECT_THROW(list.pop_front(), std::out_of_range);
+	EXPECT_THROW(list.pop(13), std::out_of_range);
+}
+
+TEST_F(ListTest, forwardIteratorIsCreatedCorrect) {
+	list.push_back(42);
+	list.push_back(1963);
+	list.push_back(13);
+	auto it = list.begin();
+	EXPECT_EQ(42, *it);
+}
+
+TEST_F(ListTest, forwardIteratorAdvance) {
+	list.push_back(42);
+	list.push_back(1963);
+	list.push_back(13);
+	auto it = list.begin();
+	EXPECT_EQ(42, *it);
+	++it;
+	EXPECT_EQ(1963, *it);
+	++it;
+	EXPECT_EQ(13, *it);
+	++it;
+}

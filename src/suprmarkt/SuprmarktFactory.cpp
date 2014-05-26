@@ -38,7 +38,7 @@ Suprmarkt makeSupermarket() {
 	}
 
 	{
-		int time = 0;
+		auto time = 0;
 		cout << "Informe o tempo de simulação (em horas): ";
 		while (!(cin >> time) || time <= 0) {
 			cin.clear();
@@ -49,7 +49,7 @@ Suprmarkt makeSupermarket() {
 	}
 
 	{
-		int checkouts = 0;
+		auto checkouts = 0;
 		cout << "Informe a quantidade de caixas: ";
 		while (!(cin >> checkouts) || checkouts <= 0) {
 			cin.clear();
@@ -57,11 +57,11 @@ Suprmarkt makeSupermarket() {
 			cout << "Quantidade inválido! Tente novamente: ";
 		}
 
-		for (int i = 0; i < checkouts; ++i) {
+		for (auto i = 0; i < checkouts; ++i) {
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-			Cashier cashier = Cashier();
+			auto cashier = Cashier { };
 
 			{
 				string name;
@@ -71,7 +71,7 @@ Suprmarkt makeSupermarket() {
 			}
 
 			{
-				double salary = 0.0;
+				auto salary = 0.0;
 				cout << "Informe o salário do caixa " << i + 1 << ": ";
 				while (!(cin >> salary) || salary <= 0.0) {
 					cin.clear();
@@ -82,7 +82,7 @@ Suprmarkt makeSupermarket() {
 			}
 
 			{
-				int efficiency = 0;
+				auto efficiency = 0;
 				cout << "Informe a eficiência do caixa " << i + 1 << "\n"
 						<< "1) baixa\n" << "2) média\n" << "3) alta: ";
 				while (!(cin >> efficiency) || efficiency <= 0
@@ -107,7 +107,7 @@ Suprmarkt makeSupermarket() {
 				}
 			}
 
-			Checkout queue = Checkout(cashier);
+			auto queue = Checkout { cashier };
 
 			super.addCheckout(queue);
 		}
@@ -127,7 +127,7 @@ string getLine(ifstream& file) {
 }
 
 Suprmarkt makeSupermarket(char* filename) {
-	Suprmarkt super = Suprmarkt();
+	auto super = Suprmarkt { };
 
 	ifstream file;
 	file.open(filename);
@@ -139,7 +139,7 @@ Suprmarkt makeSupermarket(char* filename) {
 		}
 
 		{
-			int time = 0;
+			auto time = 0;
 
 			if (!(stringstream(getLine(file)) >> time)) {
 				cout
@@ -155,7 +155,7 @@ Suprmarkt makeSupermarket(char* filename) {
 		}
 
 		{
-			int avgClientArrival = 0;
+			auto avgClientArrival = 0;
 			if (!(stringstream(getLine(file)) >> avgClientArrival)) {
 				cout
 						<< "Erro: o tempo médio de chegada de clientes não está corretamente formatado. Leia a documentação.\n";
@@ -169,7 +169,7 @@ Suprmarkt makeSupermarket(char* filename) {
 		}
 
 		{
-			int numCashiers = 0;
+			auto numCashiers = 0;
 			if (!(stringstream(getLine(file)) >> numCashiers)) {
 				cout
 						<< "Erro: a número de caixas não está corretamente formatado. Leia a documentação.\n";
@@ -180,7 +180,7 @@ Suprmarkt makeSupermarket(char* filename) {
 				exit(2);
 			}
 
-			for (int i = 0; i < numCashiers; ++i) {
+			for (auto i = 0; i < numCashiers; ++i) {
 				Cashier cashier;
 				string name;
 				int efficiency;
@@ -210,7 +210,7 @@ Suprmarkt makeSupermarket(char* filename) {
 							<< " não está configurado corretamente. Leia a documentação.\n";
 					exit(3);
 				}
-				Checkout queue = Checkout(cashier);
+				auto queue = Checkout { cashier };
 
 				super.addCheckout(queue);
 			}

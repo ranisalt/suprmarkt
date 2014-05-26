@@ -8,7 +8,7 @@
 #ifndef CHECKOUT_H_
 #define CHECKOUT_H_
 
-#include <structures/List.h>
+#include "structures/List.h"
 #include "suprmarkt/cashier/Cashier.h"
 #include "suprmarkt/client/Client.h"
 using suprmarkt::cashier::Cashier;
@@ -34,7 +34,6 @@ public:
 	 * @param cashier Cashier que atente neste Checkout.
 	 */
 	Checkout(const Cashier& cashier);
-	virtual ~Checkout();
 
 	/**
 	 * @brief Acesso ao Cashier do Checkout.
@@ -42,6 +41,18 @@ public:
 	 * @return Cópia do Cashier do Checkout.
 	 */
 	Cashier cashier() const;
+
+	/**
+	 * @brief Acesso ao tempo total de espera para o Checkout.
+	 * @return Tempo total de espera.
+	 */
+	int totalWaiting() const;
+
+	/**
+	 * @brief Mutação do tempo total de espera para o Checkout.
+	 * @param totalWaiting Novo tempo de espera.
+	 */
+	void totalWaiting(int totalWaiting);
 
 	/**
 	 * @brief Desenfileirar e processar Client.
