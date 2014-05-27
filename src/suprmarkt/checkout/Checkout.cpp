@@ -10,15 +10,11 @@
 namespace suprmarkt {
 namespace checkout {
 
-Checkout::Checkout() :
-		_totalWaiting() {
-}
-
 Checkout::Checkout(const Cashier& cashier) :
 		_cashier(cashier), _queue(), _totalWaiting() {
 }
 
-Cashier Checkout::cashier() const {
+const Cashier &Checkout::cashier() const {
 	return _cashier;
 }
 
@@ -27,14 +23,11 @@ int Checkout::totalWaiting() const {
 }
 
 void Checkout::dequeue(int time) {
-	if (_queue.empty()) {
-		std::cout << "empty";
+	if (_queue.empty())
 		return;
-	}
 
 	auto client = _queue.front();
 	if (time == client.leavingTime()) {
-		std::cout << "Chegou aqui alguma vez";
 		_cashier.clientsServed(_cashier.clientsServed() + 1);
 		_cashier.totalIncome(_cashier.totalIncome() + client.cartValue());
 		_totalWaiting += time - client.arrivalTime();

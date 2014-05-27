@@ -7,16 +7,18 @@
 
 #include <iostream>
 #include <string>
+
 #include "suprmarkt/Suprmarkt.h"
 #include "suprmarkt/client/ClientFactory.h"
-using std::cout;
+
 using std::string;
 using suprmarkt::client::ClientFactory::makeClient;
+using structures::List;
 
 namespace suprmarkt {
 
-Suprmarkt::Suprmarkt() :
-		_name(), _time(), _avgClientArrival(), _totalClients(), _lostClients(), _lostMoney(), _queues() {
+Suprmarkt::Suprmarkt(const string& name, int time, int avgClientArrival, const List<Checkout> &queues):
+	_name{name}, _time{time}, _avgClientArrival{avgClientArrival}, _queues{queues} {
 }
 
 string Suprmarkt::name() const {
@@ -43,7 +45,7 @@ void Suprmarkt::avgClientArrival(int avgClientArrival) {
 	_avgClientArrival = avgClientArrival;
 }
 
-List<Checkout> Suprmarkt::checkouts() const {
+const List<Checkout> &Suprmarkt::checkouts() const {
 	return _queues;
 }
 
@@ -51,11 +53,17 @@ void Suprmarkt::addCheckout(const Checkout& checkout) {
 	_queues.push_back(checkout);
 }
 
+bool Suprmarkt::empty() const {
+	for (const auto &queue : _queues)
+		if (queue.length())
+			return false;
+	return true;
+}
+
 double Suprmarkt::income() const {
 	auto total = 0.0;
-	for (auto checkout : _queues) {
+	for (const auto &checkout : _queues)
 		total += checkout.cashier().totalIncome();
-	}
 	return total;
 }
 
@@ -74,34 +82,32 @@ double Suprmarkt::lostMoney() const {
 void Suprmarkt::run() {
 	_lostClients = _totalClients = 0;
 	_lostMoney = 0.0;
-	auto _run = 0;
-	auto _timeForNextClient = rand() % 3 + _avgClientArrival;
+	auto running_time = 0;
+	auto _timeForNextClient = (rand() % 3) + _avgClientArrival - 1;
 
-	while (_run < _time) {
-		for (auto it = _queues.begin(); it != _queues.end(); ++it)
-			it->dequeue(_run);
+	while (running_time < _time) {
+		for (auto &queue : _queues)
+			queue.dequeue(running_time);
 
-		if (_run == _timeForNextClient) {
-			auto client = makeClient(_run);
+		if (running_time == _timeForNextClient) {
+			auto client = makeClient(running_time);
 			++_totalClients;
 			try {
 				client.enterBestQueue(_queues);
-			} catch (std::exception& e) {
+			} catch (const std::exception& e) {
 				++_lostClients;
 				_lostMoney += client.cartValue();
 			}
-			_timeForNextClient += rand() % 3 + _avgClientArrival - 1;
+			_timeForNextClient += (rand() % 3) + _avgClientArrival - 1;
 		}
 
-		++_run;
+		++running_time;
 	}
 
-	cout << _lostClients << '/' << _totalClients << '\n';
-
-	for (auto checkout : _queues) {
-		/*cout << checkout.cashier().name() << '\n';
-		 cout << checkout.length() << '\n';
-		 cout << _lostClients << '\n';*/
+	while (!empty()) {
+		for (auto &queue : _queues)
+			queue.dequeue(running_time);
+		++running_time;
 	}
 }
 

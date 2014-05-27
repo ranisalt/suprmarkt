@@ -28,13 +28,15 @@ namespace suprmarkt {
 namespace SuprmarktFactory {
 
 Suprmarkt makeSupermarket() {
-	Suprmarkt super = Suprmarkt();
+	auto name = string{};
+	auto time = 0;
+	auto avgClientArrival = 0;
+	auto queues = structures::List<Checkout>{};
 
 	{
 		string name;
 		cout << "Informe o nome do supermercado: ";
 		getline(cin, name);
-		super.name(name);
 	}
 
 	{
@@ -45,7 +47,7 @@ Suprmarkt makeSupermarket() {
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			cout << "Tempo inválido! Tente novamente: ";
 		}
-		super.time(time * 60 * 60);
+		time *= (60 * 60);
 	}
 
 	{
@@ -107,13 +109,11 @@ Suprmarkt makeSupermarket() {
 				}
 			}
 
-			auto queue = Checkout { cashier };
-
-			super.addCheckout(queue);
+			queues.push_back(Checkout{cashier});
 		}
 	}
 
-	return super;
+	return {name, time, avgClientArrival, queues};
 }
 
 string getLine(ifstream& file) {
@@ -127,20 +127,20 @@ string getLine(ifstream& file) {
 }
 
 Suprmarkt makeSupermarket(char* filename) {
-	auto super = Suprmarkt { };
+	auto name = string{};
+	auto time = 0;
+	auto avgClientArrival = 0;
+	auto checkouts = structures::List<Checkout>{};
 
 	ifstream file;
 	file.open(filename);
 
 	if (file.is_open()) {
 		{
-			string name = getLine(file);
-			super.name(name);
+			name = getLine(file);
 		}
 
 		{
-			auto time = 0;
-
 			if (!(stringstream(getLine(file)) >> time)) {
 				cout
 						<< "Erro: o tempo não está corretamente formatado. Leia a documentação.\n";
@@ -151,11 +151,10 @@ Suprmarkt makeSupermarket(char* filename) {
 						<< "Erro: o tempo não pode ser menor ou igual a zero. Leia a documentação.\n";
 				exit(2);
 			}
-			super.time(time * 60 * 60);
+			time *= (60 * 60);
 		}
 
 		{
-			auto avgClientArrival = 0;
 			if (!(stringstream(getLine(file)) >> avgClientArrival)) {
 				cout
 						<< "Erro: o tempo médio de chegada de clientes não está corretamente formatado. Leia a documentação.\n";
@@ -165,7 +164,6 @@ Suprmarkt makeSupermarket(char* filename) {
 						<< "Erro: o tempo médio de chegada de clientes não pode ser menor ou igual a zero. Leia a documentação.\n";
 				exit(2);
 			}
-			super.avgClientArrival(avgClientArrival);
 		}
 
 		{
@@ -181,10 +179,11 @@ Suprmarkt makeSupermarket(char* filename) {
 			}
 
 			for (auto i = 0; i < numCashiers; ++i) {
-				Cashier cashier;
-				string name;
-				int efficiency;
-				double salary;
+				auto cashier = Cashier{};
+				auto name = string{};
+				auto efficiency = 0;
+				auto salary = 0.0;
+
 				if (stringstream(getLine(file)) >> name >> efficiency
 						>> salary) {
 					cashier.name(name);
@@ -210,20 +209,19 @@ Suprmarkt makeSupermarket(char* filename) {
 							<< " não está configurado corretamente. Leia a documentação.\n";
 					exit(3);
 				}
-				auto queue = Checkout { cashier };
 
-				super.addCheckout(queue);
+				checkouts.push_back(Checkout{cashier});
 			}
 		}
 	} else {
 		cout
-				<< "Erro: o arquivo de configuração não pôde ser aberto. Leia a documentação.\n";
+				<< "Erro: o arquivo de configuração " << filename << " não pôde ser aberto. Leia a documentação.\n";
 		exit(1);
 	}
 
 	file.close();
 
-	return super;
+	return {name, time, avgClientArrival, checkouts};
 }
 
 } /* namespace SuprmarktFactory */

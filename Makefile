@@ -1,7 +1,7 @@
 CXX=g++
 
 INCLUDE=-Iinclude
-CXXFLAGS=-Wall -std=c++11 $(INCLUDE)
+CXXFLAGS=-g -Wall -std=c++11 $(INCLUDE)
 
 EXEC=build/suprmarkt
 TEST=$(EXEC)_test
@@ -9,7 +9,7 @@ TEST=$(EXEC)_test
 SRC=$(shell find src -iname '*.cpp') main.cpp
 SRC_TEST=$(shell find src tests -iname '*.cpp') main_test.cpp
 
-all: test clean compile
+all: test compile
 
 compile:
 	$(CXX) -o $(EXEC) $(SRC) $(CXXFLAGS)

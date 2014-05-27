@@ -5,23 +5,19 @@
  *      Author: ranieri
  */
 
-#include <suprmarkt/client/Client.h>
-#include <suprmarkt/checkout/Checkout.h>
+#include "suprmarkt/client/Client.h"
+#include "suprmarkt/checkout/Checkout.h"
 
 using suprmarkt::checkout::Checkout;
 
 namespace suprmarkt {
 namespace client {
 
-Client::Client() :
-		_arrivalTime(), _leavingTime(), _cartSize(), _cartValue(), _paymentType(), _preferenceQueue() {
-}
-
 Client::Client(int cartSize, double cartValue, int arrivalTime,
 		const Payment& paymentType, const Preference& preference) :
-		_arrivalTime(arrivalTime), _leavingTime(), _cartSize(cartSize), _cartValue(
-				cartValue), _paymentType(paymentType), _preferenceQueue(
-				preference) {
+		_arrivalTime(arrivalTime),  _cartSize(cartSize),
+		_cartValue(cartValue), _paymentType(paymentType),
+		_preferenceQueue(preference) {
 }
 
 int Client::arrivalTime() const {
@@ -53,22 +49,23 @@ Payment Client::paymentType() const {
 }
 
 void Client::enterBestQueue(List<Checkout>& queues) {
-	auto chosen = queues.begin();
+	auto chosen = begin(queues);
 	if (Preference::FEWER == _preferenceQueue) {
-		for (auto it = ++queues.begin(); it != queues.end(); ++it)
+		for (auto it = ++begin(queues); it != end(queues); ++it) {
 			if (it->countItems() < chosen->countItems() && it->length() < 10)
 				chosen = it;
+		}
 	} else if (Preference::SHORTER == _preferenceQueue) {
-		auto chosen = queues.begin();
 		for (auto it = ++queues.begin(); it != queues.end(); ++it)
 			if (it->length() < chosen->length())
 				chosen = it;
 	}
+
 	if (chosen->length() < 10) {
-		std::cout << chosen->cashier().name();
 		chosen->enqueue(*this);
 		return;
 	}
+
 	throw std::exception();
 }
 

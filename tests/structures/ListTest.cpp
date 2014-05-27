@@ -11,8 +11,10 @@
 #include "structures/List.h"
 #include "suprmarkt/cashier/Cashier.h"
 #include "suprmarkt/checkout/Checkout.h"
+
 using std::string;
 using testing::Test;
+using structures::List;
 
 class ListTest: public testing::Test {
 public:
@@ -113,5 +115,24 @@ TEST_F(ListTest, forwardIteratorAdvance) {
 	EXPECT_EQ(1963, *it);
 	++it;
 	EXPECT_EQ(13, *it);
-	++it;
+}
+
+TEST_F(ListTest, backwardIteratorIsCreatedCorrect) {
+	list.push_back(42);
+	list.push_back(1963);
+	list.push_back(13);
+	auto it = list.rbegin();
+	EXPECT_EQ(13, *it);
+}
+
+TEST_F(ListTest, backwardIteratorAdvance) {
+	list.push_back(42);
+	list.push_back(1963);
+	list.push_back(13);
+	auto it = list.rbegin();
+	EXPECT_EQ(13, *it);
+	--it;
+	EXPECT_EQ(1963, *it);
+	--it;
+	EXPECT_EQ(42, *it);
 }

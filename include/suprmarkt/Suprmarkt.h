@@ -16,25 +16,16 @@ using suprmarkt::checkout::Checkout;
 namespace suprmarkt {
 
 class Suprmarkt {
-	typedef std::string string;
+	template <typename T>
+	using List = structures::List<T>;
 
-	string _name;
-	int _time;
-	int _avgClientArrival;
-	int _totalClients;
-	int _lostClients;
-	double _lostMoney;
-	List<Checkout> _queues;
+	using string = std::string;
 
 public:
-	/**
-	 * @brief Construtor padrão do Suprmarkt.
-	 */
-	Suprmarkt();
+	Suprmarkt(const string& name, int time, int avgClientArrival, const List<Checkout> &queues);
 
 	/**
 	 * @brief Acesso ao nome do Suprmarkt.
-	 *
 	 * @return Nome do Suprmarkt.
 	 */
 	string name() const;
@@ -47,28 +38,24 @@ public:
 
 	/**
 	 * @brief Acesso ao tempo atual da simulação do Suprmarkt.
-	 *
 	 * @return Tempo atual da simulação.
 	 */
 	int time() const;
 
 	/**
 	 * @brief Mutação do tempo atual da simulação do Suprmarkt.
-	 *
 	 * @param time Novo tempo atual da simulação.
 	 */
 	void time(int time);
 
 	/**
 	 * @brief Acesso ao tempo médio de chegada de Clients.
-	 *
 	 * @return Tempo médio de chegada de Clients.
 	 */
 	int avgClientArrival() const;
 
 	/**
 	 * @brief Mutação do tempo médio de chegada de Clients.
-	 *
 	 * @param avgClientArrival Novo tempo médio de chegada de Clients.
 	 */
 	void avgClientArrival(int avgClientArrival);
@@ -77,22 +64,24 @@ public:
 	 * @brief Contar Checkouts em um Suprmarkt.
 	 * @return Contagem de Checkouts.
 	 */
-	List<Checkout> checkouts() const;
+	const List<Checkout> &checkouts() const;
 
 	/**
 	 * @brief Adicionar Checkout ao Suprmarkt.
-	 *
-	 * Adiciona um Checkout completo à lista de Checkouts do Suprmarkt.
-	 *
+	 * @details Adiciona um Checkout completo à lista de Checkouts do Suprmarkt.
 	 * @param checkout Novo Checkout.
 	 */
 	void addCheckout(const Checkout& checkout);
 
 	/**
+	 * @brief Verifica se os Checkouts estão vazios.
+	 * @return Checkouts estão vazios.
+	 */
+	bool empty() const;
+
+	/**
 	 * @brief Calcular lucro do Suprmarkt.
-	 *
-	 * Percorre todos os caixas do Suprmarkt e soma os seus lucros.
-	 *
+	 * @details Percorre todos os caixas do Suprmarkt e soma os seus lucros.
 	 * @return Lucro total do Suprmarkt.
 	 */
 	double income() const;
@@ -107,6 +96,15 @@ public:
 	 * @brief Executar simulação.
 	 */
 	void run();
+
+private:
+	string _name;
+	int _time;
+	int _avgClientArrival;
+	int _totalClients{};
+	int _lostClients{};
+	double _lostMoney{};
+	List<Checkout> _queues;
 };
 
 } /* namespace suprmarkt */

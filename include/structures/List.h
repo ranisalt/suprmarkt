@@ -8,10 +8,13 @@
 #ifndef LIST_H_
 #define LIST_H_
 
+#include <iterator>
 #include <iostream>
 #include <stdexcept>
 
-template<typename T>
+namespace structures {
+
+template <typename T>
 class List {
 	struct node {
 		node(node* pred, node* succ, const T& item) :
@@ -23,10 +26,10 @@ class List {
 		T item;
 	};
 
-	node* _sentinel;
-	int count;
+	node* _sentinel {new node{0, 0, T()}};
+	int count {};
 
-	template<typename U>
+	template <typename U>
 	class iterator_base {
 	public:
 		iterator_base(node* ptr = 0) :
@@ -76,16 +79,35 @@ class List {
 	};
 
 public:
-	List () :
-			_sentinel(new node(0, 0, T())), count(0) {
+	friend void swap(List &a, List&b) {
+		using std::swap;
+
+		swap(a._sentinel, b._sentinel);
+		swap(a.count, b.count);
+	}
+
+	List() {
 		_sentinel->succ = _sentinel->pred = _sentinel;
 	}
 
-	virtual ~List() {
+	List(const List& other): List() {
+		for (auto &element: other) {
+			push_back(element);
+		}
+	}
+
+	~List() {
 		while (_sentinel->succ != _sentinel) {
 			this->_sentinel->succ = this->_sentinel->succ->succ;
 			delete this->_sentinel->succ->pred;
 		}
+
+		delete _sentinel;
+	}
+
+	List& operator=(List other) {
+		swap(*this, other);
+		return *this;
 	}
 
 	bool empty() const {
@@ -198,8 +220,8 @@ public:
 		return removed;
 	}
 
-	typedef iterator_base<T> iterator;
-	typedef iterator_base<const T> const_iterator;
+	using iterator = iterator_base<T>;
+	using const_iterator = iterator_base<const T>;
 
 	iterator begin() {
 		return iterator(_sentinel->succ);
@@ -233,5 +255,10 @@ public:
 		return const_iterator(_sentinel);
 	}
 };
+
+using std::begin;
+using std::end;
+
+}
 
 #endif /* LIST_H_ */

@@ -13,19 +13,15 @@ using suprmarkt::client::Payment;
 namespace suprmarkt {
 namespace cashier {
 
-Cashier::Cashier() :
-		_name(), _salary(), _efficiency(), _clientsServed(), _totalSold(), _totalIncome() {
-}
-
 Cashier::Cashier(const string& name, double salary, Efficiency efficiency) :
 		_name(name), _salary(salary), _efficiency(efficiency), _clientsServed(), _totalSold(), _totalIncome() {
 }
 
-string Cashier::name() const {
+const string &Cashier::name() const {
 	return _name;
 }
 
-void Cashier::name(string name) {
+void Cashier::name(const string &name) {
 	_name = name;
 }
 

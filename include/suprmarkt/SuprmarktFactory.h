@@ -17,16 +17,13 @@ namespace SuprmarktFactory {
 
 /**
  * @brief Fabrica um supermercado recebendo input direto do usuário.
- *
  * @return Supermercado fabricado.
  */
 Suprmarkt makeSupermarket();
 
 /**
- * Fabrica um supermercado de acordo com o conteúdo de um arquivo.
- *
+ * @brief Fabrica um supermercado de acordo com o conteúdo de um arquivo.
  * @param filename Nome do arquivo de configuração.
- *
  * @return Supermercado fabricado.
  */
 Suprmarkt makeSupermarket(char* filename);

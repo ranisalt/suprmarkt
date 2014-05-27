@@ -18,29 +18,30 @@ namespace suprmarkt {
 namespace checkout {
 
 class Checkout {
-	Cashier _cashier;
-	List<Client> _queue;
-	int _totalWaiting;
+	template <typename T>
+	using List = structures::List<T>;
+
+	Cashier _cashier {};
+	List<Client> _queue {};
+	int _totalWaiting {};
 
 public:
 	/**
 	 * @brief Construtor padrão de Checkout.
 	 */
-	Checkout();
+	Checkout() = default;
 
 	/**
 	 * @brief Construtor completo de Checkout.
-	 *
 	 * @param cashier Cashier que atente neste Checkout.
 	 */
 	Checkout(const Cashier& cashier);
 
 	/**
 	 * @brief Acesso ao Cashier do Checkout.
-	 *
 	 * @return Cópia do Cashier do Checkout.
 	 */
-	Cashier cashier() const;
+	const Cashier &cashier() const;
 
 	/**
 	 * @brief Acesso ao tempo total de espera para o Checkout.
@@ -56,32 +57,26 @@ public:
 
 	/**
 	 * @brief Desenfileirar e processar Client.
-	 *
-	 * Se o Client que estiver na frente da fila já estiver em seu momento de ser atendido, processa e desenfileira o Client e altera o Cashier.
-	 *
+	 * @details Se o Client que estiver na frente da fila já estiver em seu momento de ser atendido, processa e desenfileira o Client e altera o Cashier.
 	 * @param time Tempo atual para saber se é tempo de desenfileirar.
 	 */
 	void dequeue(int time);
 
 	/**
 	 * @brief Enfileirar Client.
-	 *
-	 * Insere o Client na fila do Checkout e altera o seu tempo de saída para refletir o tempo esperado do fim do processamento.
-	 *
+	 * @details Insere o Client na fila do Checkout e altera o seu tempo de saída para refletir o tempo esperado do fim do processamento.
 	 * @param client Client a ser enfileirado.
 	 */
 	void enqueue(Client& client);
 
 	/**
 	 * @brief Calcular total de itens em todos os carrinhos da fila.
-	 *
 	 * @return Soma de itens em todos os carrinhos da fila.
 	 */
 	int countItems() const;
 
 	/**
 	 * @brief Calcular comprimento da fila.
-	 *
 	 * @return Comprimento da fila.
 	 */
 	int length() const;

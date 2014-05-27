@@ -28,8 +28,9 @@ TEST_F(ClientTest, clientHasCorrectData) {
 TEST_F(ClientTest, clientHasCorrectProportions) {
 	int check{0}, money{0};
 	for (int i = 0; i < 1000000; ++i) {
-		Payment p = makeClient(0).paymentType();
-		if (Payment::CHECK == p) {
+		auto client = makeClient(0);
+		auto payment = client.paymentType();
+		if (Payment::CHECK == payment) {
 			++check;
 		} else {
 			++money;
@@ -37,4 +38,10 @@ TEST_F(ClientTest, clientHasCorrectProportions) {
 	}
 	EXPECT_NEAR(check, 200000, 1000);
 	EXPECT_NEAR(money, 800000, 1000);
+}
+
+TEST_F(ClientTest, clientCopiesCorrectly) {
+	auto c = makeClient(60);
+	auto d = Client(c);
+	EXPECT_EQ(c.leavingTime(), d.leavingTime());
 }
