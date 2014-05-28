@@ -17,7 +17,7 @@ Cashier::Cashier(const string& name, double salary, Efficiency efficiency) :
 		_name(name), _salary(salary), _efficiency(efficiency), _clientsServed(), _totalSold(), _totalIncome() {
 }
 
-const string &Cashier::name() const {
+const string& Cashier::name() const {
 	return _name;
 }
 

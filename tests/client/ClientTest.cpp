@@ -21,8 +21,8 @@ public:
 TEST_F(ClientTest, clientHasCorrectData) {
 	EXPECT_GT(101, c.cartSize());
 	EXPECT_LT(1, c.cartSize());
-	EXPECT_GT(90.01, c.cartValue());
-	EXPECT_LT(0.99, c.cartValue());
+	EXPECT_GT(9000.1, c.cartValue());
+	EXPECT_LT(1.99, c.cartValue());
 }
 
 TEST_F(ClientTest, clientHasCorrectProportions) {

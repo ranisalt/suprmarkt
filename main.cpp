@@ -26,6 +26,7 @@ int main(int argc, char** argv) {
 
 	auto _totalWaiting = 0;
 	auto _totalClients = 0;
+
 	for (auto checkout : checkouts) {
 		auto cashier = checkout.cashier();
 		cout << cashier.name() << '\n';

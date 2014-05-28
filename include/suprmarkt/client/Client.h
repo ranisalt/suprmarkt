@@ -17,21 +17,23 @@ class Checkout;
 }
 
 namespace client {
-	enum Payment {
-		CHECK, MONEY
-	};
-	enum Preference {
-		FEWER, SHORTER
-	};
+enum Payment {
+	CHECK, MONEY
+};
+enum Preference {
+	FEWER, SHORTER
+};
 
 class Client {
-	template <typename T>
-	using List = structures::List<T>;
+	using Checkout = checkout::Checkout;
+	template<typename T> using List = structures::List<T>;
 
 public:
-    using Checkout = checkout::Checkout;
 
-    Client() = default;
+	/**
+	 * @brief Construtor padrão de Client.
+	 */
+	Client() = default;
 
 	/**
 	 * @brief Construtor completo de Client.
@@ -41,7 +43,8 @@ public:
 	 * @param payment Método de pagamento do Client.
 	 * @param preference Preferência por fila do Client.
 	 */
-	Client(int cartSize, double cartValue, int arrivalTime, const Payment& payment, const Preference& preference);
+	Client(int cartSize, double cartValue, int arrivalTime,
+			const Payment& payment, const Preference& preference);
 
 	/**
 	 * @brief Acesso ao tempo de chegada do Client.
@@ -93,13 +96,13 @@ public:
 	void enterBestQueue(List<Checkout>& queues);
 
 private:
-	int _arrivalTime {};
-	int _leavingTime {};
+	int _arrivalTime { };
+	int _leavingTime { };
 
-	int _cartSize {};
-	double _cartValue {};
-	Payment _paymentType {};
-	Preference _preferenceQueue {};
+	int _cartSize { };
+	double _cartValue { };
+	Payment _paymentType { };
+	Preference _preferenceQueue { };
 };
 
 } /* namespace client */

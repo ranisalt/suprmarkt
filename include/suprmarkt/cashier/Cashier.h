@@ -19,10 +19,11 @@ enum Efficiency {
 };
 
 class Cashier {
-public:
 	typedef std::string string;
 	typedef client::Client Client;
 	typedef client::Payment Payment;
+
+public:
 
 	/**
 	 * @brief Construtor padrão de Cashier.
@@ -41,13 +42,13 @@ public:
 	 * @brief Acesso ao nome do Cashier.
 	 * @return Nome do Cashier.
 	 */
-	const string &name() const;
+	const string& name() const;
 
 	/**
 	 * @brief Mutação do nome do Cashier.
 	 * @param name Novo nome do Cashier.
 	 */
-	void name(const string &name);
+	void name(const string& name);
 
 	/**
 	 * @brief Acesso ao salário do Cashier.
@@ -111,13 +112,13 @@ public:
 	void totalIncome(double totalIncome);
 
 private:
-	string _name {};
-	double _salary {};
-	Efficiency _efficiency {};
+	string _name { };
+	double _salary { };
+	Efficiency _efficiency { };
 
-	int _clientsServed {};
-	int _totalSold {};
-	double _totalIncome {};
+	int _clientsServed { };
+	int _totalSold { };
+	double _totalIncome { };
 };
 
 } /* namespace cashier */

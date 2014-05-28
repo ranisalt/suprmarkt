@@ -17,7 +17,10 @@ Client ClientFactory::makeClient(int time) {
 	auto preference = (rand() % 2) ? Preference::FEWER : Preference::SHORTER;
 
 	auto cartSize = rand() % 99 + 2;
-	auto cartValue = rand() % 8901 / 100.0 + 1;
+	auto cartValue = 0.0;
+	for (int i = 0; i < cartSize; ++i)
+		cartValue += rand() % 8901 / 100.0 + 1;
+
 	auto c = Client { cartSize, cartValue, time, paymentType, preference };
 	return c;
 }

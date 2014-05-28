@@ -17,7 +17,7 @@ using structures::List;
 
 namespace suprmarkt {
 
-Suprmarkt::Suprmarkt(const string& name, int time, int avgClientArrival, const List<Checkout> &queues):
+Suprmarkt::Suprmarkt(const string& name, int time, int avgClientArrival, const List<Checkout>& queues):
 	_name{name}, _time{time}, _avgClientArrival{avgClientArrival}, _queues{queues} {
 }
 
@@ -45,7 +45,7 @@ void Suprmarkt::avgClientArrival(int avgClientArrival) {
 	_avgClientArrival = avgClientArrival;
 }
 
-const List<Checkout> &Suprmarkt::checkouts() const {
+const List<Checkout>& Suprmarkt::checkouts() const {
 	return _queues;
 }
 
@@ -54,7 +54,7 @@ void Suprmarkt::addCheckout(const Checkout& checkout) {
 }
 
 bool Suprmarkt::empty() const {
-	for (const auto &queue : _queues)
+	for (const auto& queue : _queues)
 		if (queue.length())
 			return false;
 	return true;
@@ -62,7 +62,7 @@ bool Suprmarkt::empty() const {
 
 double Suprmarkt::income() const {
 	auto total = 0.0;
-	for (const auto &checkout : _queues)
+	for (const auto& checkout : _queues)
 		total += checkout.cashier().totalIncome();
 	return total;
 }
@@ -86,7 +86,7 @@ void Suprmarkt::run() {
 	auto _timeForNextClient = (rand() % 3) + _avgClientArrival - 1;
 
 	while (running_time < _time) {
-		for (auto &queue : _queues)
+		for (auto& queue : _queues)
 			queue.dequeue(running_time);
 
 		if (running_time == _timeForNextClient) {
@@ -105,7 +105,7 @@ void Suprmarkt::run() {
 	}
 
 	while (!empty()) {
-		for (auto &queue : _queues)
+		for (auto& queue : _queues)
 			queue.dequeue(running_time);
 		++running_time;
 	}

@@ -34,13 +34,11 @@ Suprmarkt makeSupermarket() {
 	auto queues = structures::List<Checkout>{};
 
 	{
-		string name;
 		cout << "Informe o nome do supermercado: ";
 		getline(cin, name);
 	}
 
 	{
-		auto time = 0;
 		cout << "Informe o tempo de simulação (em horas): ";
 		while (!(cin >> time) || time <= 0) {
 			cin.clear();
@@ -49,6 +47,15 @@ Suprmarkt makeSupermarket() {
 		}
 		time *= (60 * 60);
 	}
+
+	{
+			cout << "Informe o tempo médio de chegada de clientes (em segundos): ";
+			while (!(cin >> avgClientArrival) || avgClientArrival <= 0) {
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				cout << "Tempo inválido! Tente novamente: ";
+			}
+		}
 
 	{
 		auto checkouts = 0;

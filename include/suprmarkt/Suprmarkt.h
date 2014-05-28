@@ -16,13 +16,19 @@ using suprmarkt::checkout::Checkout;
 namespace suprmarkt {
 
 class Suprmarkt {
-	template <typename T>
-	using List = structures::List<T>;
-
 	using string = std::string;
+	template<typename T> using List = structures::List<T>;
 
 public:
-	Suprmarkt(const string& name, int time, int avgClientArrival, const List<Checkout> &queues);
+	/**
+	 * @brief Construtor completo de Suprmarkt.
+	 * @param name Nome do Suprmarkt.
+	 * @param time Tempo de simulação em segundos.
+	 * @param avgClientArrival Tempo médio de chegada de clientes em segundos.
+	 * @param queues Filas do Suprmarkt.
+	 */
+	Suprmarkt(const string& name, int time, int avgClientArrival,
+			const List<Checkout> &queues);
 
 	/**
 	 * @brief Acesso ao nome do Suprmarkt.
@@ -86,10 +92,22 @@ public:
 	 */
 	double income() const;
 
+	/**
+	 * @brief Calcular o total de clientes do Suprmarkt.
+	 * @return Total de clientes.
+	 */
 	int totalClients() const;
 
+	/**
+	 * @brief Calcular o total de clientes que abandonaram o Suprmarkt.
+	 * @return Total de clientes que abandonaram.
+	 */
 	int lostClients() const;
 
+	/**
+	 * @brief Calcular o total de dinheiro perdido por clientes que abandonaram.
+	 * @return Total de dinheiro perdido.
+	 */
 	double lostMoney() const;
 
 	/**
@@ -101,9 +119,9 @@ private:
 	string _name;
 	int _time;
 	int _avgClientArrival;
-	int _totalClients{};
-	int _lostClients{};
-	double _lostMoney{};
+	int _totalClients { };
+	int _lostClients { };
+	double _lostMoney { };
 	List<Checkout> _queues;
 };
 
